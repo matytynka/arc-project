@@ -12,7 +12,7 @@ db_words = db.collection('words');
  * 
  * @return {Array<Word>} Return words array.
  */
-exports.word_list = async function(req, res) {
+exports.getWordList = async function(req, res) {
     const snapshot = await db_words.get();
     var wordList = [];
     snapshot.forEach((w) => {
@@ -28,11 +28,11 @@ exports.word_list = async function(req, res) {
  * 
  * @param {*} req 
  * @param {*} res 
- * @param {string} id of the word in Firestore 
  * 
  * @return {Word} Return single word.
  */
-exports.getById = async function(req, res, id) {
+exports.getById = async function(req, res) {
+    const id = req.params.wordId;
     const w = await db_words.doc(id).get();
     if (!w.exists) {
         console.log('Word with id ' + id + ' doesn\'t exist!');
@@ -49,12 +49,11 @@ exports.getById = async function(req, res, id) {
  * 
  * @param {*} req 
  * @param {*} res 
- * @param {Word} word that will be added to Firestore
  */
-exports.add = async function(req, res, word) {
+exports.add = async function(req, res) {
     const w = {
-        local: word.local,
-        foreign: word.foreign
+        local: req.params.local,
+        foreign: req.params.foreign
     }
     await db_words.add(w);
 }
@@ -65,8 +64,8 @@ exports.add = async function(req, res, word) {
  * 
  * @param {*} req 
  * @param {*} res 
- * @param {*} id Id of the word to be deleted.
  */
-exports.delete = async function(req, res, id) {
+exports.delete = async function(req, res) {
+    const id = req.params.wordId;
     await db_words.doc(id).delete();
 }
