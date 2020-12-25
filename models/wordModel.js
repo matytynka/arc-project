@@ -7,8 +7,7 @@ module.exports = class Word {
      * @param {string} id ID of the word.
      */
     constructor(local, foreign, id) {
-        if (id === undefined) this.id = "";
-        else this.id = id;
+        this.id = id;
         this.local = local;
         this.foreign = foreign;
     }

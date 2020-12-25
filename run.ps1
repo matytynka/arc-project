@@ -1,1 +1,0 @@
-$env:DEBUG='arc-project:*'; npm start
