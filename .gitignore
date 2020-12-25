@@ -117,3 +117,4 @@ dist
 
 fs_test.js
 configs/key.json
+.firebase
