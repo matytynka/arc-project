@@ -2,7 +2,9 @@ const wordModel = require('../models/wordModel');
 const firestoreConfig = require('../configs/firestoreConfig');
 
 db = firestoreConfig.db;
-db_words = db.collection('words');
+db_words = db.collection('userData');
+
+const testUser = "TESTUSER";
 
 /**
  * Gets all the words from Firestore.
@@ -10,10 +12,10 @@ db_words = db.collection('words');
  * @returns {Promise<Array<Word>>} Returns an promise with Array<Word> as its value.
  */
 exports.getWordList = async function() {
-    const snapshot = await db_words.get();
+    const snapshot = await db_words.doc(testUser).collection('words').get();
     let wordList = [];
     snapshot.forEach((w) => {
-        let word = new wordModel(w.data().local, w.data().foreign, w.id);
+        let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
         wordList.push(word);
         console.log('Word[' + word.getId + ']: ' + word.toString());
     })
@@ -28,12 +30,12 @@ exports.getWordList = async function() {
  * @returns {Promise<Word>} Returns an promise with single Word as its value.
  */
 exports.getById = async function(wordId) {
-    const w = await db_words.doc(wordId).get();
+    const w = await db_words.doc(testUser).collection('words').doc(wordId).get();
     if (!w.exists) {
         console.log('Word with id ' + wordId + ' doesn\'t exist!');
         return null;
     } else {
-        let word = new wordModel(w.data().local, w.data().foreign, w.id);
+        let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
         console.log('Word[' + wordId + ']: ' + word.toString());
         return word;
     }
@@ -45,14 +47,16 @@ exports.getById = async function(wordId) {
  * @param {Word} word An word to add.
  * @param {String} word.local Local version of a word
  * @param {String} word.foreign Foreign version of a word
+ * @param {Number} word.learn Level of learn
  * @returns {Promise<void>}
  */
 exports.add = async function(word) {
     const w = {
         local: word.local,
-        foreign: word.foreign
+        foreign: word.foreign,
+        learn: word.learn
     }
-    await db_words.add(w);
+    await db_words.doc(testUser).collection('words').add(w);
 }
 
 
@@ -63,5 +67,5 @@ exports.add = async function(word) {
  * @returns {Promise<void>}
  */
 exports.delete = async function(id) {
-    await db_words.doc(id).delete();
+    await db_words.doc(testUser).collection('words').doc(id).delete();
 }
