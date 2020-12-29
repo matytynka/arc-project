@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
  * @params {Response} res HTTP Response
  */
 router.post('/add/:local/:foreign', (req, res) => {
-    let word = new wordModel(req.params.local, req.params.foreign, "");
+    let word = new wordModel(req.params.local, req.params.foreign, "", 0);
     wordController.add(word).then(() => {
         res.send("Word added");
         //TODO: Maybe some response?
