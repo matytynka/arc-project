@@ -59,4 +59,10 @@ router.delete('/del/:id', (req, res) => {
     });
 });
 
+router.get('/rand', (req, res) => {
+    wordController.rand().then(word => {
+        res.send(word);
+    })
+});
+
 module.exports = router;
