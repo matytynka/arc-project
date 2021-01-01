@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    div(class="sidebar")
+        button(type="button") Dodaj słowo
+        br
+        button(type="button") Dodaj ze zdjęcia
+        br
+        button(type="button") Dodaj z artykułu
+
+    div(id="wordbasediv")
+        br
+        table(style="width:100%")
+            caption Twoje słówka
+            tr
+                th Hiszpański
+                th Polski
+                th Wykonano
+            tr
+                td Vamos a la playa
+                td Idziemy na plażę
+                td 0/3
+            tr
+                td la cerveza
+                td piwo
+                td 2/3
