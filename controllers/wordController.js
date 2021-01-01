@@ -1,8 +1,8 @@
 const wordModel = require('../models/wordModel');
 const firestoreConfig = require('../configs/firestoreConfig');
 
-db = firestoreConfig.db;
-db_words = db.collection('userData');
+const admin = firestoreConfig.admin;
+const db_words = admin.firestore().collection('userData');
 
 const testUser = "TESTUSER";
 
@@ -17,7 +17,7 @@ exports.getWordList = async function() {
     snapshot.forEach((w) => {
         let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
         wordList.push(word);
-        console.log('Word[' + word.getId + ']: ' + word.toString());
+        //console.log('Word[' + word.getId + ']: ' + word.toString());
     })
     return wordList;
 }
@@ -57,6 +57,9 @@ exports.add = async function(word) {
         learn: word.learn
     }
     await db_words.doc(testUser).collection('words').add(w);
+    await db_words.doc(testUser).update({
+       wordCount: admin.firestore.FieldValue.increment(1)
+    });
 }
 
 
@@ -68,4 +71,7 @@ exports.add = async function(word) {
  */
 exports.delete = async function(id) {
     await db_words.doc(testUser).collection('words').doc(id).delete();
+    await db_words.doc(testUser).update({
+        wordCount: admin.firestore.FieldValue.increment(-1)
+    });
 }

@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('learning');
-});
+const learningViewController = require('../controllers/learningViewController');
+
+router.get('/', learningViewController.index);
 
 module.exports = router;
