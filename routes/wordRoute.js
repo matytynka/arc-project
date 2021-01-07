@@ -42,9 +42,16 @@ router.post('/add/:local/:foreign', (req, res) => {
     let word = new wordModel(req.params.local, req.params.foreign, "", 0);
     wordController.add(word).then(() => {
         res.send("Word added");
-        //TODO: Maybe some response?
     });
 });
+
+router.post('/add/', (req, res) => {
+    let word = new wordModel(req.body.local, req.body.foreign, "", 0);
+    wordController.add(word).then(() => {
+        res.redirect('back');
+    });
+});
+
 
 /**
  * Deletes an word by id from the Firestore.
@@ -57,12 +64,6 @@ router.delete('/del/:id', (req, res) => {
         res.send("Word deleted");
         //TODO: Maybe some response?
     });
-});
-
-router.get('/rand', (req, res) => {
-    wordController.rand().then(word => {
-        res.send(word);
-    })
 });
 
 module.exports = router;

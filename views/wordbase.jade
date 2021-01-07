@@ -12,17 +12,17 @@ block content
             div(class="popup-content")
                 span(class="close") &times;
                 h2 Dodaj własne słowo
-                form
+                form(action="../word/add", method="POST")
                     label Słowo po polsku
                     br
-                    input(type="text" id="local")
+                    input(type="text" name="local")
                     input(type="checkbox" id="translate")
                     label Automatycznie przetłumacz
                     br
                     br
                     label Słowo po hiszpańsku
                     br
-                    input(type="text" id="foreign")
+                    input(type="text" name="foreign")
                     br
                     br
                     input(type="submit" value="Dodaj")
