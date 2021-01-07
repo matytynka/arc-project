@@ -2,11 +2,30 @@ extends layout
 
 block content
     div(class="sidebar")
-        button(type="button") Dodaj słowo
+        button(type="button" id="addword") Dodaj słowo
         br
-        button(type="button") Dodaj ze zdjęcia
+        button(type="button" id="fromphoto") Dodaj ze zdjęcia
         br
-        button(type="button") Dodaj z artykułu
+        button(type="button" id="fromarticle") Dodaj z artykułu
+
+        div(id="popup" class="popup")
+            div(class="popup-content")
+                span(class="close") &times;
+                h2 Dodaj własne słowo
+                form
+                    label Słowo po polsku
+                    br
+                    input(type="text" id="local")
+                    input(type="checkbox" id="translate")
+                    label Automatycznie przetłumacz
+                    br
+                    br
+                    label Słowo po hiszpańsku
+                    br
+                    input(type="text" id="foreign")
+                    br
+                    br
+                    input(type="submit" value="Dodaj")
 
     div(id="wordbasediv")
         br
@@ -21,3 +40,17 @@ block content
                     td !{word.foreign}
                     td !{word.local}
                     td !{word.learn}/3
+
+    script.
+        var popup = document.getElementById("popup");
+        var btn = document.getElementById("addword");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            popup.style.display = "block"
+        }
+
+        span.onclick = function() {
+            popup.style.display = "none"
+        }
+
