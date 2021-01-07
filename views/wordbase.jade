@@ -16,11 +16,8 @@ block content
                 th Hiszpański
                 th Polski
                 th Wykonano
-            tr
-                td Vamos a la playa
-                td Idziemy na plażę
-                td 0/3
-            tr
-                td la cerveza
-                td piwo
-                td 2/3
+            each word in words
+                tr
+                    td !{word.foreign}
+                    td !{word.local}
+                    td !{word.learn}/3
