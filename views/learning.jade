@@ -2,8 +2,11 @@ extends layout
 
 block content
     div(id="learningdiv")
+        ul
+            each word in words
+                li !{word.foreign} - !{word.local} (!{word.learn} level)
         h4 Spanish
-        h2= foreign
+        //h2= foreign
         h4 Polish
         input(type="text", id="answer")
         br
@@ -11,10 +14,9 @@ block content
         button(type="button", onclick="check()") Sprawdź
         script.
             function answer() {
-                alert("Anwser is !{local}");
+
             }
 
             function check() {
-                const answer = document.getElementById("answer").value;
-                if(answer === "!{local}") alert("Dobrze!");
+
             }
