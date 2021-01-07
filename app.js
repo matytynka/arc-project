@@ -7,8 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var wordRouter = require('./routes/wordRoute');
-var learningRouter = require('./routes/learningRoute');
-var wordbaseRouter = require('./routes/wordbaseRoute');
+var learningRouter = require('./routes/learningViewRoute');
+var wordbaseRouter = require('./routes/wordbaseViewRoute');
 
 var app = express();
 
