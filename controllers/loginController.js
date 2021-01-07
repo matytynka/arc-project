@@ -37,6 +37,19 @@ exports.login = async function(email, password) {
         });
 }
 
+/**
+ * Log outs the user.
+ *
+ *
+ */
+exports.logout = async function() {
+    firebase.auth().signOut().then(() => {
+
+    }).catch((error) => {
+
+    });
+}
+
 firebase.auth().onAuthStateChanged((user) => {
    if (user) {
        //Signed in
