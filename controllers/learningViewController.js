@@ -5,6 +5,7 @@ exports.index = function(req, res, next) {
     wordListPromise.then((wordList) => {
         const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
         console.log(randomWord.foreign);
-        res.render('learning', {local: randomWord.getLocal, foreign: randomWord.getForeign});
+        //res.render('learning', {local: randomWord.getLocal, foreign: randomWord.getForeign});
+        res.render('learning', {words: wordList});
     });
 }
