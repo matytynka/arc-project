@@ -1,0 +1,11 @@
+# .env
+NODE_ENV=development
+
+# firebase config
+API_KEY="AIzaSyDDxGHuGrpwi0kmuLPflJtoJoZ0ugJUNZs"
+AUTH_DOMAIN: "arc-project-bf6c3.firebaseapp.com",
+PROJECT_ID: "arc-project-bf6c3",
+STORAGE_BUCKET: "arc-project-bf6c3.appspot.com",
+MESSAGING_SENDER_ID: "646615307296",
+APP_ID: "1:646615307296:web:a90d209162631dc835d845",
+MEASUREMENT_ID: "G-41CP1DRSQK"
