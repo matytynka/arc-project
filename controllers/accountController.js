@@ -1,7 +1,4 @@
-const firebase = require("firebase/app");
-const firebaseConfig = require('../configs/firebaseConfig');
-
-firebase.initializeApp(firebaseConfig);
+const { firebase } = require("../configs/firebaseConfig");
 
 /**
  * Creates an user with given email and password in Firebase.
@@ -13,10 +10,11 @@ firebase.initializeApp(firebaseConfig);
 exports.register = async function(email, password) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
-            //Signed in
+            console.log("Success creating account!");
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
         });
 }
 
@@ -28,12 +26,13 @@ exports.register = async function(email, password) {
  * @returns {Promise<void>}
  */
 exports.login = async function(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
             //Signed in
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
         });
 }
 
@@ -43,18 +42,20 @@ exports.login = async function(email, password) {
  *
  */
 exports.logout = async function() {
-    firebase.auth().signOut().then(() => {
+    auth().signOut().then(() => {
 
     }).catch((error) => {
-
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log("["+errorCode+"]: "+errorMessage);
     });
 }
 
-firebase.auth().onAuthStateChanged((user) => {
+/*auth().onAuthStateChanged((user) => {
    if (user) {
        //Signed in
        var uid = user.uid;
    } else {
        //User is signed out
    }
-});
+});*/
