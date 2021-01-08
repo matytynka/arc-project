@@ -31,7 +31,9 @@ router.get('/:id', (req, res) => {
 });
 
 /**
- * Adds an word to Firestore.
+ * Adds an word to Firestore using params in URL.
+ *
+ * @deprecated
  *
  * @params {Request} req HTTP Request
  * @params {String} req.params.local Local version of the word
@@ -41,16 +43,35 @@ router.get('/:id', (req, res) => {
 router.post('/add/:local/:foreign', (req, res) => {
     let word = new wordModel(req.params.local, req.params.foreign, "", 0);
     wordController.add(word).then(() => {
-        res.send("Word added");
+        res.redirect('back');
     });
 });
 
-router.post('/add/', (req, res) => {
+/**
+ * Adds an word to Firestore using sent data in request body.
+ *
+ * @params {Request} req HTTP Request
+ * @params {String} req.body.local Local version of the word
+ * @params {String} req.body.foreign Foreign version of the word
+ * @params {Response} res HTTP Response
+ */
+router.post('/add', (req, res) => {
     let word = new wordModel(req.body.local, req.body.foreign, "", 0);
     wordController.add(word).then(() => {
         res.redirect('back');
     });
 });
+
+/**
+ * Adds multiple words to Firestore
+ *
+ * @params {Request} req HTTP Request
+ * @params {Response} res HTTP Response
+ */
+router.post('/addMult', (req, res) => {
+    res.send("NOT IMPLEMENTED");
+    //TODO: Implement multiple add
+})
 
 
 /**

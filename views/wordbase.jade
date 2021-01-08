@@ -29,17 +29,21 @@ block content
 
     div(id="wordbasediv")
         br
-        table(style="width:100%")
+        table(style="width:100%", id="tableWordbase")
             caption Twoje słówka
             tr
                 th Hiszpański
                 th Polski
                 th Wykonano
+                th Edycja
             each word in words
                 tr
                     td !{word.foreign}
                     td !{word.local}
                     td !{word.learn}/3
+                    td
+                        i(class="fa fa-pencil")
+                        i(class="fa fa-times")
 
     script.
         var popup = document.getElementById("popup");

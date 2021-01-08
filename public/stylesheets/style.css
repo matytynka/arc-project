@@ -66,9 +66,14 @@ th {
   background-color: #333;
 }
 
-td:nth-child(3) {
+#tableWordbase td:nth-child(3) {
   text-align: center;
   width: 20px;
+}
+
+#tableWordbase td:nth-child(4) {
+  text-align: center;
+  width: 10px;
 }
 
 .sidebar {
