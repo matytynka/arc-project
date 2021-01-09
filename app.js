@@ -5,10 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var accountRouter = require('./routes/accountRoute');
 var wordRouter = require('./routes/wordRoute');
-var learningRouter = require('./routes/learningRoute');
-var wordbaseRouter = require('./routes/wordbaseRoute');
+var learningRouter = require('./routes/learningViewRoute');
+var wordbaseRouter = require('./routes/wordbaseViewRoute');
 
 var app = express();
 
@@ -18,12 +18,12 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/account', accountRouter);
 app.use('/word', wordRouter);
 app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);

@@ -2,15 +2,24 @@ extends layout
 
 block content
     div(id="learningdiv")
+        ul
+            each word in words
+                li !{word.foreign} - !{word.local} (!{word.learn} level)
         h4 Spanish
-        h2 Vamos a la playa
+        h2= foreign
         h4 Polish
-        form()
-            input(type="text", id="answer")
-            br
-            input(type="submit", value="Check")
-            input(type="submit", value="I don't know")
+        input(type="text", id="answer")
+        br
+        button(type="button", onclick="answer()") Nie wiem
+        button(type="button", onclick="check()") Sprawdź
+        script.
 
-        br
-        br
-        button(type="button") Back
+            const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+
+            function answer() {
+
+            }
+
+            function check() {
+
+            }

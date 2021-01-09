@@ -2,25 +2,59 @@ extends layout
 
 block content
     div(class="sidebar")
-        button(type="button") Dodaj słowo
+        button(type="button" id="addword") Dodaj słowo
         br
-        button(type="button") Dodaj ze zdjęcia
+        button(type="button" id="fromphoto") Dodaj ze zdjęcia
         br
-        button(type="button") Dodaj z artykułu
+        button(type="button" id="fromarticle") Dodaj z artykułu
+
+        div(id="popup" class="popup")
+            div(class="popup-content")
+                span(class="close") &times;
+                h2 Dodaj własne słowo
+                form(action="../word/add", method="POST")
+                    label Słowo po polsku
+                    br
+                    input(type="text" name="local")
+                    input(type="checkbox" id="translate")
+                    label Automatycznie przetłumacz
+                    br
+                    br
+                    label Słowo po hiszpańsku
+                    br
+                    input(type="text" name="foreign")
+                    br
+                    br
+                    input(type="submit" value="Dodaj")
 
     div(id="wordbasediv")
         br
-        table(style="width:100%")
+        table(style="width:100%", id="tableWordbase")
             caption Twoje słówka
             tr
                 th Hiszpański
                 th Polski
                 th Wykonano
-            tr
-                td Vamos a la playa
-                td Idziemy na plażę
-                td 0/3
-            tr
-                td la cerveza
-                td piwo
-                td 2/3
+                th Edycja
+            each word in words
+                tr
+                    td !{word.foreign}
+                    td !{word.local}
+                    td !{word.learn}/3
+                    td
+                        i(class="fa fa-pencil")
+                        i(class="fa fa-times")
+
+    script.
+        var popup = document.getElementById("popup");
+        var btn = document.getElementById("addword");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            popup.style.display = "block"
+        }
+
+        span.onclick = function() {
+            popup.style.display = "none"
+        }
+
