@@ -2,11 +2,9 @@ extends layout
 
 block content
     div(id="learningdiv")
-        ul
-            each word in words
-                li !{word.foreign} - !{word.local} (!{word.learn} level)
+        //!{word.foreign} - !{word.local} (!{word.learn} level)
         h4 Spanish
-        h2= foreign
+        h2(id="foreign")
         h4 Polish
         input(type="text", id="answer")
         br
@@ -14,12 +12,30 @@ block content
         button(type="button", onclick="check()") Sprawdź
         script.
 
-            const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+            window.onload = function () {
+                init();
+            };
+
+            function roll() {
+                var wordList = !{words};
+                return wordList[Math.floor(Math.random() * wordList.length)];
+            }
+
+            function init() {
+                var randomWord = roll();
+                while (randomWord.learn === 3) {
+                    randomWord = roll();
+                }
+                alert(randomWord.foreign);
+                document.getElementById("foreign").innerHTML = randomWord.foreign;
+            }
 
             function answer() {
-
+                return document.getElementById("answer").value.toLowerCase() === randomWord.local.toLowerCase();
             }
 
             function check() {
+                if (answer() === true) {
 
+                }
             }
