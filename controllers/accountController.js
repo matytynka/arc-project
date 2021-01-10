@@ -26,9 +26,9 @@ exports.register = async function(email, password) {
  * @returns {Promise<void>}
  */
 exports.login = async function(email, password) {
-    auth().signInWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
-            //Signed in
+            console.log("Success logging in!");
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -39,14 +39,14 @@ exports.login = async function(email, password) {
 /**
  * Log outs the user.
  *
- *
+ * @returns {Promise<void>}
  */
 exports.logout = async function() {
-    auth().signOut().then(() => {
-
+    firebase.auth().signOut().then(() => {
+        console.log("Success logging out!");
     }).catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        let errorCode = error.code;
+        let errorMessage = error.message;
         console.log("["+errorCode+"]: "+errorMessage);
     });
 }
