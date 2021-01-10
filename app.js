@@ -9,6 +9,7 @@ var accountRouter = require('./routes/accountRoute');
 var wordRouter = require('./routes/wordRoute');
 var learningRouter = require('./routes/learningViewRoute');
 var wordbaseRouter = require('./routes/wordbaseViewRoute');
+var loginRouter = require('./routes/loginRoute');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/account', accountRouter);
 app.use('/word', wordRouter);
 app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

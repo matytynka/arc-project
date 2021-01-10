@@ -43,6 +43,11 @@ a {
   padding: 50px;
 }
 
+#loginform {
+  padding-top: 100px;
+  padding-left: 80px;
+}
+
 table, th, td {
   margin-top: 40px;
   border: 1px solid black;

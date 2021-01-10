@@ -8,25 +8,28 @@ block content
         h4 Polish
         input(type="text", id="answer")
         br
-        button(type="button", onclick="answer()") Nie wiem
-        button(type="button", onclick="check()") Sprawdź
+        button(type="button", id="show", onclick="show()") Nie wiem
+        button(type="button", id="check", onclick="check()") Sprawdź
+        br
+        h2(id="newtext")
         script.
+
+            let randomWord;
 
             window.onload = function () {
                 init();
             };
 
             function roll() {
-                var wordList = !{words};
+                let wordList = !{words};
                 return wordList[Math.floor(Math.random() * wordList.length)];
             }
 
             function init() {
-                var randomWord = roll();
+                randomWord = roll();
                 while (randomWord.learn === 3) {
                     randomWord = roll();
                 }
-                alert(randomWord.foreign);
                 document.getElementById("foreign").innerHTML = randomWord.foreign;
             }
 
@@ -34,8 +37,38 @@ block content
                 return document.getElementById("answer").value.toLowerCase() === randomWord.local.toLowerCase();
             }
 
+            function next() {
+                init();
+                document.getElementById("check").onclick = check;
+                document.getElementById("check").innerHTML = "Sprawdź";
+                document.getElementById("newtext").innerHTML = "";
+                document.getElementById("answer").value = "";
+                document.getElementById("answer").removeAttribute("disabled");
+                document.getElementById("show").removeAttribute("disabled");
+            }
+
             function check() {
                 if (answer() === true) {
-
+                    document.getElementById("newtext").style.color = "green";
+                    document.getElementById("newtext").innerHTML = "Dobrze! +1 pkt";
+                    //randomWord.learn++;
+                    document.getElementById("check").onclick = next;
+                    document.getElementById("check").innerHTML = "Następne";
+                    document.getElementById("show").setAttribute("disabled", "disabled");
+                } else {
+                    document.getElementById("newtext").style.color = "red";
+                    document.getElementById("newtext").innerHTML = "Żle! -1 pkt";
+                    document.getElementById("check").onclick = next;
+                    document.getElementById("check").innerHTML = "Następne";
+                    document.getElementById("show").setAttribute("disabled", "disabled");
                 }
+            }
+
+            function show() {
+                document.getElementById("answer").setAttribute("disabled", "disabled");
+                document.getElementById("show").setAttribute("disabled", "disabled");
+                document.getElementById("newtext").style.color = "orange";
+                document.getElementById("newtext").innerHTML = randomWord.local + " 0 pkt";
+                document.getElementById("check").onclick = next;
+                document.getElementById("check").innerHTML = "Następne";
             }
