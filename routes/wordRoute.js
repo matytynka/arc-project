@@ -12,10 +12,14 @@ const wordController = require('../controllers/wordController');
  */
 router.get('/', (req, res) => {
     wordController.getWordList().then(wordList => {
-        res.send(wordList);
+        res.status(200).send(wordList);
+    }).catch((err) => {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        console.log("["+errorCode+"]: "+errorMessage);
+        res.status(400).send("["+errorCode+"]: "+errorMessage);
     });
 });
-
 
 /**
  * Gets an word by id from Firestore.
@@ -25,9 +29,15 @@ router.get('/', (req, res) => {
  * @params {Response} res HTTP Response containing the requested word
  */
 router.get('/:id', (req, res) => {
-    wordController.getById(req.params.id).then(word => {
-        res.send(word);
-    });
+    wordController.getById(req.params.id)
+        .then(word => {
+            res.status(200).send(word);
+        }).catch((err) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
 });
 
 /**
@@ -43,7 +53,7 @@ router.get('/:id', (req, res) => {
 router.post('/add/:local/:foreign', (req, res) => {
     let word = new wordModel(req.params.local, req.params.foreign, "", 0);
     wordController.add(word).then(() => {
-        res.redirect('back');
+        res.status(201).redirect('back');
     });
 });
 
@@ -59,7 +69,7 @@ router.post('/add', (req, res) => {
     let word = new wordModel(req.body.local, req.body.foreign, "", 0);
     wordController.add(word)
         .then(() => {
-            res.redirect('back');
+            res.status(201).redirect('back');
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
