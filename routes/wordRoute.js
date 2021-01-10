@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
  * Gets an word by id from Firestore.
  *
  * @params {Request} req HTTP Request
- * @params {String} req.params.wordid Id of the word
+ * @params {String} req.params.id Id of the word
  * @params {Response} res HTTP Response containing the requested word
  */
 router.get('/:id', (req, res) => {
@@ -57,9 +57,15 @@ router.post('/add/:local/:foreign', (req, res) => {
  */
 router.post('/add', (req, res) => {
     let word = new wordModel(req.body.local, req.body.foreign, "", 0);
-    wordController.add(word).then(() => {
-        res.redirect('back');
-    });
+    wordController.add(word)
+        .then(() => {
+            res.redirect('back');
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
 });
 
 /**
@@ -69,7 +75,7 @@ router.post('/add', (req, res) => {
  * @params {Response} res HTTP Response
  */
 router.post('/addMult', (req, res) => {
-    res.send("NOT IMPLEMENTED");
+    res.status(501).send("NOT IMPLEMENTED");
     //TODO: Implement multiple add
 })
 
@@ -81,10 +87,53 @@ router.post('/addMult', (req, res) => {
  * @params {Response} res HTTP Response
  */
 router.delete('/del/:id', (req, res) => {
-    wordController.delete(req.params.id).then(() => {
-        res.send("Word deleted");
-        //TODO: Maybe some response?
-    });
+    wordController.delete(req.params.id)
+        .then(() => {
+            res.status(200).send("Word deleted");
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
+});
+
+/**
+ * Increases 'learn' of a word by 1.
+ *
+ * @params {Request} req HTTP Request
+ * @params {String} req.params.id Id of the word
+ * @params {Response} res HTTP Response
+ */
+router.post('/:id/up', (req, res) => {
+    wordController.learnUp(req.params.id)
+        .then(() => {
+            res.status(200).send("Word leveled up");
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
+});
+
+/**
+ * Decreases 'learn' of a word by 1.
+ *
+ * @params {Request} req HTTP Request
+ * @params {String} req.params.id Id of the word
+ * @params {Response} res HTTP Response
+ */
+router.post('/:id/down', (req, res) => {
+    wordController.learnDown(req.params.id)
+        .then(() => {
+            res.status(200).send("Word leveled down");
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
 });
 
 module.exports = router;

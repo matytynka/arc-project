@@ -75,3 +75,15 @@ exports.delete = async function(id) {
         wordCount: admin.firestore.FieldValue.increment(-1)
     });
 }
+//TODO: Add docs
+exports.learnUp = async function(id) {
+    await db_words.doc(testUser).collection('words').doc(id).update({
+        learn: admin.firestore.FieldValue.increment(1)
+    });
+}
+//TODO: Add docs
+exports.learnDown = async function(id) {
+    await db_words.doc(testUser).collection('words').doc(id).update({
+        learn: admin.firestore.FieldValue.increment(-1)
+    });
+}
