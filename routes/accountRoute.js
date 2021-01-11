@@ -20,10 +20,8 @@ router.post('/register', (req, res) => {
         .then((user) => {
             res.status(201).send("Created account!");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -41,10 +39,8 @@ router.post('/login', (req, res) => {
         .then((user) => {
             res.status(200).redirect('/wordbase');
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -61,10 +57,8 @@ router.get('/logout', (req, res) => {
         .then((user) => {
             res.status(200).redirect("/");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 
 });
@@ -74,10 +68,8 @@ router.get('/user', (req, res) => {
         .then((user) => {
             res.status(200).send(user);
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 })
 

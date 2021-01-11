@@ -13,8 +13,7 @@ const accountController = require('./accountController');
  */
 exports.getWordList = async function() {
     return accountController.get().then(async (user) => {
-        //                                    id zamiast email
-        const snapshot = await db_words.doc(user.email).collection('words').get();
+        const snapshot = await db_words.doc(user.uid).collection('words').get();
         let wordList = [];
         snapshot.forEach((w) => {
             let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
@@ -35,17 +34,20 @@ exports.getWordList = async function() {
  * @returns {Promise<Word>} Returns an promise with single Word as its value.
  */
 exports.getById = async function(wordId) {
-    accountController.get().then(async (user) => {
-        const w = await db_words.doc(user.email).collection('words').doc(wordId).get();
-        if (!w.exists) {
-            console.log('Word with id ' + wordId + ' doesn\'t exist!');
-            return null;
-        } else {
-            let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-            console.log('Word[' + wordId + ']: ' + word.toString());
-            return word;
-        }
-    });
+    return accountController.get()
+        .then(async (user) => {
+            const w = await db_words.doc(user.uid).collection('words').doc(wordId).get();
+            if (!w.exists) {
+                console.log('Word with id ' + wordId + ' doesn\'t exist!');
+                return null;
+            } else {
+                let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
+                console.log('Word[' + wordId + ']: ' + word.toString());
+                return word;
+            }
+        }).catch((error) => {
+            console.log("["+error.code+"]: "+error.message);
+        });
 }
 
 /**
@@ -69,7 +71,7 @@ exports.add = async function(word) {
             wordCount: admin.firestore.FieldValue.increment(1)
         });
     }).catch((error) => {
-        console.log(error);
+        console.log("["+error.code+"]: "+error.message);
     });
 }
 
@@ -81,20 +83,47 @@ exports.add = async function(word) {
  * @returns {Promise<void>}
  */
 exports.delete = async function(id) {
-    await db_words.doc(testUser).collection('words').doc(id).delete();
-    await db_words.doc(testUser).update({
-        wordCount: admin.firestore.FieldValue.increment(-1)
-    });
+    accountController.get()
+        .then(async (user) => {
+            await db_words.doc(user.uid).collection('words').doc(id).delete();
+            await db_words.doc(user.uid).update({
+                wordCount: admin.firestore.FieldValue.increment(-1)
+            });
+        }).catch((error) => {
+            console.log("["+error.code+"]: "+error.message);
+        });
 }
-//TODO: Add docs
+
+/**
+ * Learns up an word.
+ *
+ * @param id
+ * @returns {Promise<void>}
+ */
 exports.learnUp = async function(id) {
-    await db_words.doc(testUser).collection('words').doc(id).update({
-        learn: admin.firestore.FieldValue.increment(1)
-    });
+    accountController.get()
+        .then(async (user) => {
+            await db_words.doc(user.uid).collection('words').doc(id).update({
+                learn: admin.firestore.FieldValue.increment(1)
+            });
+        }).catch((error) => {
+            console.log("["+error.code+"]: "+error.message);
+        });
 }
-//TODO: Add docs
+
+/**
+ * Learns down an word.
+ *
+ * @param id
+ * @returns {Promise<void>}
+ */
 exports.learnDown = async function(id) {
-    await db_words.doc(testUser).collection('words').doc(id).update({
-        learn: admin.firestore.FieldValue.increment(-1)
+    accountController.get()
+        .then(async (user) => {
+            await db_words.doc(user.uid).collection('words').doc(id).update({
+                learn: admin.firestore.FieldValue.increment(-1)
+            });
+        }).catch((error) => {
+        console.log("["+error.code+"]: "+error.message);
     });
 }

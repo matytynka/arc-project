@@ -12,9 +12,7 @@ exports.register = async function(email, password) {
         .then((user) => {
             console.log("Success creating account!");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
         });
 }
 
@@ -30,9 +28,7 @@ exports.login = async function(email, password) {
         .then((user) => {
             console.log("Success logging in!");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
         });
 }
 
@@ -42,13 +38,12 @@ exports.login = async function(email, password) {
  * @returns {Promise<void>}
  */
 exports.logout = async function() {
-    firebase.auth().signOut().then(() => {
-        console.log("Success logging out!");
-    }).catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log("["+errorCode+"]: "+errorMessage);
-    });
+    firebase.auth().signOut()
+        .then(() => {
+            console.log("Success logging out!");
+        }).catch((error) => {
+            console.log("["+error.code+"]: "+error.message);
+        });
 }
 
 /**

@@ -14,10 +14,8 @@ router.get('/', (req, res) => {
     wordController.getWordList().then(wordList => {
         res.status(200).send(wordList);
     }).catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log("["+errorCode+"]: "+errorMessage);
-        res.status(400).send("["+errorCode+"]: "+errorMessage);
+        console.log("["+error.code+"]: "+error.message);
+        res.status(400).send("["+error.code+"]: "+error.message);
     });
 });
 
@@ -33,10 +31,8 @@ router.get('/:id', (req, res) => {
         .then(word => {
             res.status(200).send(word);
         }).catch((err) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -52,9 +48,13 @@ router.get('/:id', (req, res) => {
  */
 router.post('/add/:local/:foreign', (req, res) => {
     let word = new wordModel(req.params.local, req.params.foreign, "", 0);
-    wordController.add(word).then(() => {
-        res.status(201).redirect('back');
-    });
+    wordController.add(word)
+        .then(() => {
+            res.status(201).redirect('back');
+        }).catch((error) => {
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
+        });
 });
 
 /**
@@ -71,10 +71,8 @@ router.post('/add', (req, res) => {
         .then(() => {
             res.status(201).redirect('back');
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -101,10 +99,8 @@ router.delete('/:id', (req, res) => {
         .then(() => {
             res.status(200).send("Word deleted");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -120,10 +116,8 @@ router.post('/:id/up', (req, res) => {
         .then(() => {
             res.status(200).send("Word leveled up");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -139,10 +133,8 @@ router.post('/:id/down', (req, res) => {
         .then(() => {
             res.status(200).send("Word leveled down");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
