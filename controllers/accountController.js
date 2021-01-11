@@ -5,15 +5,18 @@ const { firebase } = require("../configs/firebaseConfig");
  *
  * @param {String} email User's email
  * @param {String} password User's password
+ * @param {String} passwordCheck User's password check
  * @returns {Promise<void>}
  */
-exports.register = async function(email, password) {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((user) => {
-            console.log("Success creating account!");
-        }).catch((error) => {
+exports.register = async function(email, password, passwordCheck) {
+    if(password === passwordCheck) {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((user) => {
+                console.log("Success creating account!");
+            }).catch((error) => {
             console.log("["+error.code+"]: "+error.message);
         });
+    }
 }
 
 /**

@@ -8,15 +8,16 @@ const loginController = require('../controllers/accountController');
  *
  * @params {Request} req HTTP Request
  * @params {String} req.body.email Users email
- * @params {String} req.body.password
+ * @params {String} req.body.password Users password
+ * @params {String} req.body.passwordcheck Users passwordcheck
  * @params {Response} res HTTP Response
  * @return {Promise<void>}
  */
 router.post('/register', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    console.log("EMAIL:" + email + " PASS:" + password);
-    loginController.register(email, password)
+    const passwordCheck = req.body.passwordcheck;
+    loginController.register(email, password, passwordCheck)
         .then((user) => {
             res.status(201).send("Created account!");
         }).catch((error) => {
