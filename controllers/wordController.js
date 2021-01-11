@@ -66,8 +66,8 @@ exports.add = async function(word) {
             foreign: word.foreign,
             learn: word.learn
         }
-        await db_words.doc(user.email).collection('words').add(w);
-        await db_words.doc(user.email).update({
+        await db_words.doc(user.uid).collection('words').add(w);
+        await db_words.doc(user.uid).update({
             wordCount: admin.firestore.FieldValue.increment(1)
         });
     }).catch((error) => {
