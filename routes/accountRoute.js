@@ -39,7 +39,7 @@ router.post('/login', (req, res) => {
     const password = req.body.password;
     loginController.login(email, password)
         .then((user) => {
-            res.status(200).redirect('../../wordbase');
+            res.status(200).redirect('/wordbase');
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -59,7 +59,7 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
     loginController.logout()
         .then((user) => {
-            res.status(200).redirect("localhost:3000");
+            res.status(200).redirect("/");
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -68,5 +68,17 @@ router.get('/logout', (req, res) => {
         });
 
 });
+
+router.get('/user', (req, res) => {
+    loginController.get()
+        .then((user) => {
+            res.status(200).send(user);
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log("["+errorCode+"]: "+errorMessage);
+            res.status(400).send("["+errorCode+"]: "+errorMessage);
+        });
+})
 
 module.exports = router;

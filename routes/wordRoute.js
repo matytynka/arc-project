@@ -13,7 +13,7 @@ const wordController = require('../controllers/wordController');
 router.get('/', (req, res) => {
     wordController.getWordList().then(wordList => {
         res.status(200).send(wordList);
-    }).catch((err) => {
+    }).catch((error) => {
         let errorCode = error.code;
         let errorMessage = error.message;
         console.log("["+errorCode+"]: "+errorMessage);
@@ -96,7 +96,7 @@ router.post('/addMult', (req, res) => {
  * @params {Request} req HTTP Request
  * @params {Response} res HTTP Response
  */
-router.delete('/del/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     wordController.delete(req.params.id)
         .then(() => {
             res.status(200).send("Word deleted");

@@ -51,6 +51,14 @@ exports.logout = async function() {
     });
 }
 
+/**
+ * Get current user.
+ *
+ */
+exports.get = async function() {
+    return firebase.auth().currentUser;
+}
+
 /*auth().onAuthStateChanged((user) => {
    if (user) {
        //Signed in
