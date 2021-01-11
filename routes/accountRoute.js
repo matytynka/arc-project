@@ -8,22 +8,21 @@ const loginController = require('../controllers/accountController');
  *
  * @params {Request} req HTTP Request
  * @params {String} req.body.email Users email
- * @params {String} req.body.password
+ * @params {String} req.body.password Users password
+ * @params {String} req.body.passwordcheck Users passwordcheck
  * @params {Response} res HTTP Response
  * @return {Promise<void>}
  */
 router.post('/register', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    console.log("EMAIL:" + email + " PASS:" + password);
-    loginController.register(email, password)
+    const passwordCheck = req.body.passwordcheck;
+    loginController.register(email, password, passwordCheck)
         .then((user) => {
             res.status(201).send("Created account!");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -41,10 +40,8 @@ router.post('/login', (req, res) => {
         .then((user) => {
             res.status(200).redirect('/wordbase');
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 });
 
@@ -61,10 +58,8 @@ router.get('/logout', (req, res) => {
         .then((user) => {
             res.status(200).redirect("/");
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 
 });
@@ -74,10 +69,8 @@ router.get('/user', (req, res) => {
         .then((user) => {
             res.status(200).send(user);
         }).catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log("["+errorCode+"]: "+errorMessage);
-            res.status(400).send("["+errorCode+"]: "+errorMessage);
+            console.log("["+error.code+"]: "+error.message);
+            res.status(400).send("["+error.code+"]: "+error.message);
         });
 })
 
