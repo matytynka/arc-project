@@ -8,7 +8,7 @@ block content
         br
         button(type="button" id="fromarticle") Dodaj z artykułu
 
-        div(id="popup" class="popup")
+        div(id="popupadd" class="popup")
             div(class="popup-content")
                 span(class="close") &times;
                 h2 Dodaj własne słowo
@@ -46,9 +46,9 @@ block content
                         i(class="fa fa-times")
 
     script.
-        var popup = document.getElementById("popup");
-        var btn = document.getElementById("addword");
-        var span = document.getElementsByClassName("close")[0];
+        let popup = document.getElementById("popupadd");
+        let btn = document.getElementById("addword");
+        let span = document.getElementsByClassName("close")[0];
 
         btn.onclick = function() {
             popup.style.display = "block"
