@@ -22,14 +22,15 @@ block content
 
             function roll() {
                 let wordList = !{words};
-                return wordList[Math.floor(Math.random() * wordList.length)];
+                if (wordList === undefined) {
+
+                } else {
+                    return wordList[Math.floor(Math.random() * wordList.length)];
+                }
             }
 
             function init() {
                 randomWord = roll();
-                while (randomWord.learn === 3) {
-                    randomWord = roll();
-                }
                 document.getElementById("foreign").innerHTML = randomWord.foreign;
             }
 
@@ -49,13 +50,20 @@ block content
 
             function check() {
                 if (answer() === true) {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/word/' + randomWord.id + '/up', true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
                     document.getElementById("newtext").style.color = "green";
                     document.getElementById("newtext").innerHTML = "Dobrze! +1 pkt";
-                    //randomWord.learn++;
                     document.getElementById("check").onclick = next;
                     document.getElementById("check").innerHTML = "Następne";
                     document.getElementById("show").setAttribute("disabled", "disabled");
                 } else {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/word/' + randomWord.id + '/down', true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
                     document.getElementById("newtext").style.color = "red";
                     document.getElementById("newtext").innerHTML = "Żle! -1 pkt";
                     document.getElementById("check").onclick = next;

@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 /**
  * TODO: Get unlearnd
  */
-router.get();
+//router.get();
 
 /**
  * Gets an word by id from Firestore.
