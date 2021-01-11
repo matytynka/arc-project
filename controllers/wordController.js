@@ -26,6 +26,23 @@ exports.getWordList = async function() {
     });
 }
 
+exports.getUnlearnedWordList = async function() {
+    return accountController.get().then(async (user) => {
+        const snapshot = await db_words.doc(user.uid).collection('words').get();
+        let wordList = [];
+        snapshot.forEach((w) => {
+            if(w.data().learn < 3) {
+                let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
+                wordList.push(word);
+            }
+        });
+        console.log("LIST:" + wordList);
+        return wordList;
+    }).catch((error) => {
+        console.log("["+error.code+"]: "+error.message);
+    });
+}
+
 /**
  * Gets an word by id from Firestore.
  *

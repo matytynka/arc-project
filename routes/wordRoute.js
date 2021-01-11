@@ -18,6 +18,10 @@ router.get('/', (req, res) => {
         res.status(400).send("["+error.code+"]: "+error.message);
     });
 });
+/**
+ * TODO: Get unlearnd
+ */
+router.get();
 
 /**
  * Gets an word by id from Firestore.
