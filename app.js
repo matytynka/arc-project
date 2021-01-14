@@ -1,22 +1,24 @@
 /* 'XMLHttpRequest is not defined' workaround */
 global.XMLHttpRequest = require("xhr2");
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/indexRoute');
-var accountRouter = require('./routes/accountRoute');
-var wordRouter = require('./routes/wordRoute');
-var learningRouter = require('./routes/learningViewRoute');
-var wordbaseRouter = require('./routes/wordbaseViewRoute');
-var loginRouter = require('./routes/loginRoute');
-var translateRouter = require('./routes/googleTranslateRoute');
-const firebaseStorageRouter = require('./routes/googleStorageRoute');
+/* View routes */
+const indexRouter = require('./routes/indexView');
+const wordbaseRouter = require('./routes/wordbaseView');
 
-var app = express();
+/* API routes */
+const accountRouter = require('./routes/accountRoute');
+const wordRouter = require('./routes/word');
+const learningRouter = require('./routes/learningView');
+const translateRouter = require('./routes/googleTranslateRoute');
+const firebaseStorageRouter = require('./routes/firebaseStorage');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +35,6 @@ app.use('/account', accountRouter);
 app.use('/word', wordRouter);
 app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
-app.use('/login', loginRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
 

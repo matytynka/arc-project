@@ -11,11 +11,11 @@ const { firebase } = require("../configs/firebaseConfig");
 exports.register = async function(email, password, passwordCheck) {
     if(password === passwordCheck) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((user) => {
+            .then(() => {
                 console.log("Success creating account!");
             }).catch((error) => {
-            console.log("["+error.code+"]: "+error.message);
-        });
+                console.log("["+error.code+"]: "+error.message);
+            });
     }
 }
 
@@ -28,7 +28,7 @@ exports.register = async function(email, password, passwordCheck) {
  */
 exports.login = async function(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((user) => {
+        .then(() => {
             console.log("Success logging in!");
         }).catch((error) => {
             console.log("["+error.code+"]: "+error.message);
