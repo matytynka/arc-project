@@ -11,7 +11,7 @@ async function uploadFile(req, res) {
             res.status(200).redirect('back');
         }).catch((error) => {
             let errMsg = `[${error.code}]: ${error.message}`
-            console.log(error);
+            console.log(errMsg);
             res.status(400).send(errMsg);
         });
 }

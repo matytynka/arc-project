@@ -12,10 +12,10 @@ const indexRouter = require('./routes/indexView');
 const wordbaseRouter = require('./routes/wordbaseView');
 
 /* API routes */
-const accountRouter = require('./routes/accountRoute');
+const accountRouter = require('./routes/account');
 const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
-const translateRouter = require('./routes/googleTranslateRoute');
+const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/firebaseStorage');
 
 const app = express();

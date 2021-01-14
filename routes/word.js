@@ -11,9 +11,6 @@ router.get('/', getWordListHandler);
 /* Get all unlearned words from Firestore. */
 router.get('/unlearned', getUnlearnedWordListHandler);
 
-/* Gets an word by id from Firestore. */
-router.get('/:id', getWordByIdHandler);
-
 /* Adds an word to Firestore using sent data in request body. */
 router.post('/add', addWordHandler);
 
