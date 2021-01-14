@@ -2,10 +2,9 @@ extends layout
 
 block content
     div(id="learningdiv")
-        //!{word.foreign} - !{word.local} (!{word.learn} level)
-        h4 Spanish
+        h4(id="langshow")
         h2(id="foreign")
-        h4 Polish
+        h4(id="langwrite")
         input(type="text", id="answer")
         br
         button(type="button", id="show", onclick="show()") Nie wiem
@@ -14,11 +13,19 @@ block content
         h2(id="newtext")
         script.
 
+            const $ = function( id ) { return document.getElementById( id ); };
+
             let randomWord;
+
+            let langMode;
 
             window.onload = function () {
                 init();
             };
+
+            function modeRoll() {
+                langMode = Math.round(Math.random());
+            }
 
             function roll() {
                 let wordList = !{words};
@@ -31,21 +38,34 @@ block content
 
             function init() {
                 randomWord = roll();
-                document.getElementById("foreign").innerHTML = randomWord.foreign;
+                modeRoll();
+                if (langMode === 0) {
+                    $("foreign").innerHTML = randomWord.foreign;
+                    $("langshow").innerHTML = "Hiszpański";
+                    $("langwrite").innerHTML = "Polski";
+                } else {
+                    $("foreign").innerHTML = randomWord.local;
+                    $("langshow").innerHTML = "Polski";
+                    $("langwrite").innerHTML = "Hiszpański";
+                }
             }
 
             function answer() {
-                return document.getElementById("answer").value.toLowerCase() === randomWord.local.toLowerCase();
+                if (langMode === 0) {
+                    return $("answer").value.toLowerCase() === randomWord.local.toLowerCase();
+                } else {
+                    return $("answer").value.toLowerCase() === randomWord.foreign.toLowerCase();
+                }
             }
 
             function next() {
                 init();
-                document.getElementById("check").onclick = check;
-                document.getElementById("check").innerHTML = "Sprawdź";
-                document.getElementById("newtext").innerHTML = "";
-                document.getElementById("answer").value = "";
-                document.getElementById("answer").removeAttribute("disabled");
-                document.getElementById("show").removeAttribute("disabled");
+                $("check").onclick = check;
+                $("check").innerHTML = "Sprawdź";
+                $("newtext").innerHTML = "";
+                $("answer").value = "";
+                $("answer").removeAttribute("disabled");
+                $("show").removeAttribute("disabled");
             }
 
             function check() {
@@ -54,29 +74,33 @@ block content
                     xhr.open("POST", '/word/' + randomWord.id + '/up', true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.send();
-                    document.getElementById("newtext").style.color = "green";
-                    document.getElementById("newtext").innerHTML = "Dobrze! +1 pkt";
-                    document.getElementById("check").onclick = next;
-                    document.getElementById("check").innerHTML = "Następne";
-                    document.getElementById("show").setAttribute("disabled", "disabled");
+                    $("newtext").style.color = "green";
+                    $("newtext").innerHTML = "Dobrze! +1 pkt";
+                    $("check").onclick = next;
+                    $("check").innerHTML = "Następne";
+                    $("show").setAttribute("disabled", "disabled");
                 } else {
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", '/word/' + randomWord.id + '/down', true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.send();
-                    document.getElementById("newtext").style.color = "red";
-                    document.getElementById("newtext").innerHTML = "Żle! -1 pkt";
-                    document.getElementById("check").onclick = next;
-                    document.getElementById("check").innerHTML = "Następne";
-                    document.getElementById("show").setAttribute("disabled", "disabled");
+                    $("newtext").style.color = "red";
+                    $("newtext").innerHTML = "Żle! -1 pkt";
+                    $("check").onclick = next;
+                    $("check").innerHTML = "Następne";
+                    $("show").setAttribute("disabled", "disabled");
                 }
             }
 
             function show() {
-                document.getElementById("answer").setAttribute("disabled", "disabled");
-                document.getElementById("show").setAttribute("disabled", "disabled");
-                document.getElementById("newtext").style.color = "orange";
-                document.getElementById("newtext").innerHTML = randomWord.local + " 0 pkt";
-                document.getElementById("check").onclick = next;
-                document.getElementById("check").innerHTML = "Następne";
+                $("answer").setAttribute("disabled", "disabled");
+                $("show").setAttribute("disabled", "disabled");
+                $("newtext").style.color = "orange";
+                if (langMode === 0) {
+                    $("newtext").innerHTML = randomWord.local + " 0 pkt";
+                } else {
+                    $("newtext").innerHTML = randomWord.foreign + " 0 pkt";
+                }
+                $("check").onclick = next;
+                $("check").innerHTML = "Następne";
             }
