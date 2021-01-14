@@ -1,11 +1,8 @@
 const wordController = require('./wordController');
 
 exports.index = function(req, res, next) {
-    const wordListPromise = wordController.getWordList();
+    const wordListPromise = wordController.getUnlearnedWordList();
     wordListPromise.then((wordList) => {
-        const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
-        console.log(randomWord.foreign);
-        //res.render('learning', {local: randomWord.getLocal, foreign: randomWord.getForeign});
-        res.render('learning', {words: wordList});
+        res.render('learning', {words: JSON.stringify(wordList)});
     });
 }

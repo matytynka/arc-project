@@ -8,43 +8,47 @@ block content
         br
         button(type="button" id="fromarticle") Dodaj z artykułu
 
-        div(id="popup" class="popup")
+        div(id="popupadd" class="popup")
             div(class="popup-content")
                 span(class="close") &times;
                 h2 Dodaj własne słowo
-                form
+                form(action="../word/add", method="POST")
                     label Słowo po polsku
                     br
-                    input(type="text" id="local")
-                    input(type="checkbox" id="translate")
-                    label Automatycznie przetłumacz
+                    input(type="text" name="local")
+                    //input(type="checkbox" name="translate")
+                    //label Automatycznie przetłumacz
                     br
                     br
                     label Słowo po hiszpańsku
                     br
-                    input(type="text" id="foreign")
+                    input(type="text" name="foreign")
                     br
                     br
                     input(type="submit" value="Dodaj")
-
+                //enctype="multiplart/form-data"
     div(id="wordbasediv")
         br
-        table(style="width:100%")
+        table(style="width:100%", id="tableWordbase")
             caption Twoje słówka
             tr
                 th Hiszpański
                 th Polski
                 th Wykonano
+                th Edycja
             each word in words
                 tr
                     td !{word.foreign}
                     td !{word.local}
                     td !{word.learn}/3
+                    td
+                        i(class="fa fa-pencil")
+                        i(class="fa fa-times")
 
     script.
-        var popup = document.getElementById("popup");
-        var btn = document.getElementById("addword");
-        var span = document.getElementsByClassName("close")[0];
+        let popup = document.getElementById("popupadd");
+        let btn = document.getElementById("addword");
+        let span = document.getElementsByClassName("close")[0];
 
         btn.onclick = function() {
             popup.style.display = "block"

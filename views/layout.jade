@@ -3,15 +3,16 @@ html
 	head
 		title= title
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel="stylesheet", href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 	body
 		div(class="navbar")
 			ul
 				li
-					a(href="../learning") Nauka
+					a(href="http://localhost:3000/learning") Nauka
 				li
-					a(href="../wordbase") Baza słówek
+					a(href="http://localhost:3000/wordbase") Baza słówek
 				li
 					a(href="#") Profil
 				li
-					a(href="#") Wyloguj
+					a(href="http://localhost:3000/account/logout") Wyloguj
 		block content

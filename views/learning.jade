@@ -2,24 +2,81 @@ extends layout
 
 block content
     div(id="learningdiv")
-        ul
-            each word in words
-                li !{word.foreign} - !{word.local} (!{word.learn} level)
+        //!{word.foreign} - !{word.local} (!{word.learn} level)
         h4 Spanish
-        //h2= foreign
+        h2(id="foreign")
         h4 Polish
         input(type="text", id="answer")
         br
-        button(type="button", onclick="answer()") Nie wiem
-        button(type="button", onclick="check()") Sprawdź
+        button(type="button", id="show", onclick="show()") Nie wiem
+        button(type="button", id="check", onclick="check()") Sprawdź
+        br
+        h2(id="newtext")
         script.
 
-            const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+            let randomWord;
+
+            window.onload = function () {
+                init();
+            };
+
+            function roll() {
+                let wordList = !{words};
+                if (wordList === undefined) {
+
+                } else {
+                    return wordList[Math.floor(Math.random() * wordList.length)];
+                }
+            }
+
+            function init() {
+                randomWord = roll();
+                document.getElementById("foreign").innerHTML = randomWord.foreign;
+            }
 
             function answer() {
+                return document.getElementById("answer").value.toLowerCase() === randomWord.local.toLowerCase();
+            }
 
+            function next() {
+                init();
+                document.getElementById("check").onclick = check;
+                document.getElementById("check").innerHTML = "Sprawdź";
+                document.getElementById("newtext").innerHTML = "";
+                document.getElementById("answer").value = "";
+                document.getElementById("answer").removeAttribute("disabled");
+                document.getElementById("show").removeAttribute("disabled");
             }
 
             function check() {
+                if (answer() === true) {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/word/' + randomWord.id + '/up', true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
+                    document.getElementById("newtext").style.color = "green";
+                    document.getElementById("newtext").innerHTML = "Dobrze! +1 pkt";
+                    document.getElementById("check").onclick = next;
+                    document.getElementById("check").innerHTML = "Następne";
+                    document.getElementById("show").setAttribute("disabled", "disabled");
+                } else {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/word/' + randomWord.id + '/down', true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
+                    document.getElementById("newtext").style.color = "red";
+                    document.getElementById("newtext").innerHTML = "Żle! -1 pkt";
+                    document.getElementById("check").onclick = next;
+                    document.getElementById("check").innerHTML = "Następne";
+                    document.getElementById("show").setAttribute("disabled", "disabled");
+                }
+            }
 
+            function show() {
+                document.getElementById("answer").setAttribute("disabled", "disabled");
+                document.getElementById("show").setAttribute("disabled", "disabled");
+                document.getElementById("newtext").style.color = "orange";
+                document.getElementById("newtext").innerHTML = randomWord.local + " 0 pkt";
+                document.getElementById("check").onclick = next;
+                document.getElementById("check").innerHTML = "Następne";
             }

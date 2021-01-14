@@ -3,7 +3,7 @@ module.exports = class Word {
      * Represents a word in two languages.
      * 
      * @param {string} local Local version of the word.
-     * @param {strings} foreign Foreign version of the word.
+     * @param {string} foreign Foreign version of the word.
      * @param {string} id ID of the word.
      * @param {number} learn Level of learn.
      */
