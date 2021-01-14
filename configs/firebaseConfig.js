@@ -1,5 +1,6 @@
 const firebase = require('firebase/app');
-require('firebase/auth')
+require('firebase/auth');
+require('firebase/storage');
 require('dotenv').config();
 
 const config = {
@@ -12,9 +13,11 @@ const config = {
     measurementId: process.env.MEASUREMENT_ID,
 }
 
-firebase.initializeApp(config);
+firebase.default.initializeApp(config);
 
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 exports.firebase = firebase;
 exports.auth = auth;
+exports.storage = storage;

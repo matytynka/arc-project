@@ -1,3 +1,6 @@
+/* 'XMLHttpRequest is not defined' workaround */
+global.XMLHttpRequest = require("xhr2");
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,6 +14,7 @@ var learningRouter = require('./routes/learningViewRoute');
 var wordbaseRouter = require('./routes/wordbaseViewRoute');
 var loginRouter = require('./routes/loginRoute');
 var translateRouter = require('./routes/googleTranslateRoute');
+const firebaseStorageRouter = require('./routes/googleStorageRoute');
 
 var app = express();
 
@@ -31,6 +35,8 @@ app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/login', loginRouter);
 app.use('/translate', translateRouter);
+app.use('/upload', firebaseStorageRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -10,8 +10,8 @@ const translate = new Translate({keyFilename});
  * @param {String} target Code of the target language. Codes can be found
  * here: https://cloud.google.com/translate/docs/languages
  *
- * @returns {Promise<String>}
- * @returns {Promise<String[]>}
+ * @returns {Promise<string>}
+ * @returns {Promise<string[]>}
  */
 exports.translateText = async function(text, target) {
     let [translations] = await translate.translate(text, target);
