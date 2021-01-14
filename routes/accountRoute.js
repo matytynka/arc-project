@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+
+//TODO: Fix documentation
+
 const loginController = require('../controllers/accountController');
 
 /**
@@ -18,7 +21,7 @@ router.post('/register', (req, res) => {
     const password = req.body.password;
     const passwordCheck = req.body.passwordcheck;
     loginController.register(email, password, passwordCheck)
-        .then((user) => {
+        .then(() => {
             res.status(201).send("Created account!");
         }).catch((error) => {
             console.log("["+error.code+"]: "+error.message);
@@ -31,13 +34,12 @@ router.post('/register', (req, res) => {
  *
  * @params {Request} req HTTP Request
  * @params {Response} res HTTP Response
- * @return {Promise<void>}
  */
 router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     loginController.login(email, password)
-        .then((user) => {
+        .then(() => {
             res.status(200).redirect('/wordbase');
         }).catch((error) => {
             console.log("["+error.code+"]: "+error.message);
@@ -51,11 +53,10 @@ router.post('/login', (req, res) => {
  *
  * @params {Request} req HTTP Request
  * @params {Response} res HTTP Response
- * @return {Promise}
  */
 router.get('/logout', (req, res) => {
     loginController.logout()
-        .then((user) => {
+        .then(() => {
             res.status(200).redirect("/");
         }).catch((error) => {
             console.log("["+error.code+"]: "+error.message);
