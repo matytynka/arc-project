@@ -4,12 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/indexRoute');
 var accountRouter = require('./routes/accountRoute');
 var wordRouter = require('./routes/wordRoute');
 var learningRouter = require('./routes/learningViewRoute');
 var wordbaseRouter = require('./routes/wordbaseViewRoute');
 var loginRouter = require('./routes/loginRoute');
+var translateRouter = require('./routes/googleTranslateRoute');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/word', wordRouter);
 app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/login', loginRouter);
+app.use('/translate', translateRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -36,7 +38,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res/*, next*/) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
