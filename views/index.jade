@@ -3,54 +3,53 @@ extends layout
 block content
 
   div(id="main")
-    div(id="main-content")
-      div(class="title")
-        h1 Witamy w #{title}!
+    div(class="title")
+      h1 Witamy w #{title}!
 
-      div(class="loginbutton")
-        button(type="button" id="loginbtn") ZALOGUJ SIĘ
-        button(type="button" id="regisbtn") ZAREJESTRUJ SIĘ
+    div(class="loginbutton")
+      button(type="button" id="loginbtn") ZALOGUJ SIĘ
+      button(type="button" id="regisbtn") ZAREJESTRUJ SIĘ
 
-      div(id="popuplogin" class="popup")
-        div(class="popup-content")
-          span(class="close" id="close1") &times;
-          h2 Logowanie
-          div(class="content")
-            form(action="../account/login", method="POST")
-              label Login
-              br
-              input(type="text" name="email")
-              br
-              br
-              label Hasło
-              br
-              input(type="password" name="password")
-              br
-              br
-              input(type="submit" value="Zaloguj się")
+    div(id="popuplogin" class="popup")
+      div(class="popup-content")
+        span(class="close" id="close1") &times;
+        h2 Logowanie
+        div(class="content")
+          form(action="../account/login", method="POST")
+            label Login
+            br
+            input(type="text" name="email")
+            br
+            br
+            label Hasło
+            br
+            input(type="password" name="password")
+            br
+            br
+            input(type="submit" value="Zaloguj się")
 
-      div(id="popupregis" class="popup")
-        div(class="popup-content")
-          span(class="close", id="close2") &times;
-          h2 Rejestracja
-          div(class="content")
-            form(action="../account/register", method="POST")
-              label E-mail
-              br
-              input(type="text" name="email")
-              br
-              br
-              label Hasło
-              br
-              input(type="password" name="password")
-              br
-              br
-              label Powtórz hasło
-              br
-              input(type="password" name="passwordcheck")
-              br
-              br
-              input(type="submit" value="Zarejestruj się")
+    div(id="popupregis" class="popup")
+      div(class="popup-content")
+        span(class="close", id="close2") &times;
+        h2 Rejestracja
+        div(class="content")
+          form(action="../account/register", method="POST")
+            label E-mail
+            br
+            input(type="text" name="email")
+            br
+            br
+            label Hasło
+            br
+            input(type="password" name="password")
+            br
+            br
+            label Powtórz hasło
+            br
+            input(type="password" name="passwordcheck")
+            br
+            br
+            input(type="submit" value="Zarejestruj się")
 
   script.
     let popup1 = document.getElementById("popuplogin");
