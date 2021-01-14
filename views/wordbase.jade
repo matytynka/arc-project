@@ -10,7 +10,7 @@ block content
 
         div(id="popupadd" class="popup")
             div(class="popup-content")
-                span(class="close") &times;
+                span(class="close" id="closeadd") &times;
                 h2 Dodaj własne słowo
                 form(action="../word/add", method="POST")
                     label Słowo po polsku
@@ -26,7 +26,17 @@ block content
                     br
                     br
                     input(type="submit" value="Dodaj")
-                //enctype="multiplart/form-data"
+
+        div(id="popphoto" class="popup")
+            div(class="popup-content")
+                span(class="close" id="closephoto") &times;
+                h2 Dodaj własne słowo ze zdjęcia
+                form(action="../upload" enctype="multipart/form-data" method="POST")
+                    input(type="file" name="files")
+                    br
+                    br
+                    input(type="submit" value="Wyślij plik")
+
     div(id="wordbasediv")
         br
         table(style="width:100%", id="tableWordbase")
@@ -48,7 +58,11 @@ block content
     script.
         let popup = document.getElementById("popupadd");
         let btn = document.getElementById("addword");
-        let span = document.getElementsByClassName("close")[0];
+        let span = document.getElementById("closeadd");
+
+        let popphoto = document.getElementById("popphoto");
+        let btnphoto = document.getElementById("fromphoto");
+        let spanphoto = document.getElementById("closephoto");
 
         btn.onclick = function() {
             popup.style.display = "block"
@@ -56,5 +70,13 @@ block content
 
         span.onclick = function() {
             popup.style.display = "none"
+        }
+
+        btnphoto.onclick = function () {
+            popphoto.style.display = "block"
+        }
+
+        spanphoto.onclick = function () {
+            popphoto.style.display = "none"
         }
 
