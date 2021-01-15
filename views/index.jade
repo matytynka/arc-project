@@ -7,7 +7,7 @@ block content
   script(src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js").
   div(id="main")
     div(class="title")
-      h1 Witamy w #{title}!
+      h1 Witamy w ARC Projekt!
 
     div(class="loginbutton")
       button(type="button" id="loginbtn") ZALOGUJ SIĘ
@@ -18,6 +18,8 @@ block content
         div(class="login-content")
           span(class="close" id="close1") &times;
           h2 Logowanie
+          if(loginErr)
+            h3 #{loginErr}
           form(action="../account/login", method="POST")
             label Login
             br
@@ -45,6 +47,8 @@ block content
         span(class="close", id="close2") &times;
         h2 Rejestracja
         div(class="regis-content")
+          if(registerErr)
+            h3 #{registerErr}
           form(action="../account/register", method="POST")
             label E-mail
             br
