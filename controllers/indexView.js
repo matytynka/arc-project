@@ -3,5 +3,5 @@ exports.getIndexViewHandler = async function(req, res) {
 }
 
 function index(req, res) {
-    res.render('index', { title: 'ARC Projekt'});
+    res.render('index');
 }

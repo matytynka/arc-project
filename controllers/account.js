@@ -47,14 +47,11 @@ async function register(req, res) {
                 res.redirect('/wordbase');
             }).catch((error) => {
                 let errMsg = `[${error.code}]: ${error.message}`
-                console.log(errMsg);
-                res.redirect('/');
-                //TODO: display error
+                res.render('index', {registerErr: errMsg});
             });
     } else {
         console.log(`${password}:${passwordCheck}`)
-        res.redirect('/');
-        //TODO: display error
+        res.render('index', {registerErr: "Hasła nie pasują do siebie."});
     }
 }
 
@@ -73,8 +70,8 @@ async function login(req, res) {
             console.log("Success logging in!");
             res.redirect('/wordbase');
         }).catch((error) => {
-            res.render('/');
-            //TODO: display error
+            let errMsg = `[${error.code}]: ${error.message}`
+            res.render('index', {loginErr: errMsg});
         });
 }
 
