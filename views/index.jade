@@ -2,6 +2,9 @@ extends layout
 
 block content
 
+  script(src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js").
+  script(src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js").
+  script(src="https://www.gstatic.com/firebasejs/8.2.2/firebase-firestore.js").
   div(id="main")
     div(class="title")
       h1 Witamy w #{title}!
@@ -27,7 +30,9 @@ block content
             br
             br
             input(type="submit" value="Zaloguj się")
-
+          button(type="button" id="twitterloginbtn") Twitter login
+          button(type="button" id="googleloginbtn") Google login
+          button(type="button" id="facebookloginbtn") Facebook login
     div(id="popupregis" class="popup")
       div(class="popup-content")
         span(class="close", id="close2") &times;
@@ -51,26 +56,70 @@ block content
             br
             input(type="submit" value="Zarejestruj się")
 
+
   script.
-    let popup1 = document.getElementById("popuplogin");
-    let popup2 = document.getElementById("popupregis");
-    let btn1 = document.getElementById("loginbtn");
-    let btn2 = document.getElementById("regisbtn");
-    let span1 = document.getElementById("close1");
-    let span2 = document.getElementById("close2");
+    const $ = function( id ) { return document.getElementById( id ); };
+
+    const config = {
+      apiKey: "AIzaSyC9oacyibLG0pD9zGUL2E32EcOiYPHPFJI",
+      authDomain: "arc-project-bf6c3.firebaseapp.com",
+      projectId: "arc-project-bf6c3",
+      storageBucket: "arc-project-bf6c3.appspot.com",
+      messagingSenderId: "646615307296",
+      appId: "1:646615307296:web:a90d209162631dc835d845",
+      measurementId: "G-41CP1DRSQK"
+    }
+
+    firebase.initializeApp(config);
+
+    let popup1 = $("popuplogin");
+    let popup2 = $("popupregis");
+    let btn1 = $("loginbtn");
+    let btn2 = $("regisbtn");
+    let span1 = $("close1");
+    let span2 = $("close2");
+    let twbtn = $("twitterloginbtn");
+    let gobtn = $("googleloginbtn");
+    let fbbtn = $("facebookloginbtn");
 
     btn1.onclick = function () {
-      popup1.style.display = "block"
+      popup1.style.display = "block";
     }
 
     btn2.onclick = function () {
-      popup2.style.display = "block"
+      popup2.style.display = "block";
     }
 
     span1.onclick = function () {
-      popup1.style.display = "none"
+      popup1.style.display = "none";
     }
 
     span2.onclick = function () {
-      popup2.style.display = "none"
+      popup2.style.display = "none";
+    }
+
+    twbtn.onclick = async function twitterLogin() {
+      const twitterProvider = new firebase.auth.TwitterAuthProvider();
+      await providerLogin(twitterProvider);
+    }
+
+    gobtn.onclick = async function googleLogin() {
+      const googleProvider = new firebase.auth.GoogleAuthProvider();
+      await providerLogin(googleProvider);
+    }
+
+    fbbtn.onclick = async function facebookLogin() {
+      const facebookProvider = new firebase.auth.FacebookAuthProvider();
+      await providerLogin(facebookProvider)
+    }
+
+    async function providerLogin(provider) {
+      firebase.auth().signInWithPopup(provider)
+              .then((result) => {
+                window.location.href = "http://localhost:3000/wordbase";
+              }).catch((error) => {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                console.log(`[${error.code}]: ${error.message}`);
+              });
     }

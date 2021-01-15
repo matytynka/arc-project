@@ -3,8 +3,7 @@ const router = express.Router();
 
 const loginController = require('../controllers/account');
 
-const { registerHandler, loginHandler, logoutHandler, getUserHandler
-        } = require("../controllers/account");
+const { registerHandler, loginHandler, logoutHandler, getUserHandler } = require("../controllers/account");
 
 
 /* Handles user registration form */
