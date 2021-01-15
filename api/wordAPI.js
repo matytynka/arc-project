@@ -1,7 +1,7 @@
-const wordModel = require('../models/wordModel');
 const firestoreConfig = require('../configs/firestoreConfig');
 const admin = firestoreConfig.admin;
 const db_words = admin.firestore().collection('userData');
+const batch = admin.firestore().batch();
 
 const express = require('express');
 const router = express.Router();
@@ -12,8 +12,11 @@ router.get('/:uid/', async (req, res) => {
     await db_words.doc(uid).collection('words').get()
         .then((snapshot) => {
             snapshot.forEach((w) => {
-                let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-                wordList.push(word);
+                wordList[w.id] = {
+                    "local": w.data().local,
+                    "foreign": w.data().foreign,
+                    "learn": w.data().learn
+                };
             });
             res.status(200).send(wordList);
         }).catch((error) => {
@@ -23,15 +26,18 @@ router.get('/:uid/', async (req, res) => {
         });
 });
 
-router.get('/:uid/unlearned', async (req, res) => {
+router.get('/:uid/unlearned/', async (req, res) => {
     let wordList = {};
     const uid = req.params.uid;
     const snapshot = await db_words.doc(uid).collection('words').get()
         .then((snapshot) => {
             snapshot.forEach((w) => {
                 if(w.data().learn < 3) {
-                    let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-                    wordList.push(word);
+                    wordList[w.id] = {
+                        "local": w.data().local,
+                        "foreign": w.data().foreign,
+                        "learn": w.data().learn
+                    };
                 }
             });
             res.status(200).send(wordList);
@@ -42,20 +48,34 @@ router.get('/:uid/unlearned', async (req, res) => {
         });
 });
 
-router.post('/:uid/add/:local/:foreign/:learn', async (req, res) => {
+router.get('/:uid/:id/', async (req, res) => {
     const uid = req.params.uid;
-    let word = new wordModel(req.params.local, req.params.foreign, "", req.params.learn);
-    const w = {
-        local: word.local,
-        foreign: word.foreign,
-        learn: word.learn
+    const wordId = req.params.id;
+    const w = await db_words.doc(uid).collection('words').doc(wordId).get();
+    if (!w.exists) {
+        res.status(404).send(`Word with id ${wordId} doesn\'t exist!`)
+    } else {
+        res.status(200).send({
+            "local": w.data().local,
+            "foreign": w.data().foreign,
+            "learn": w.data().learn
+        });
     }
-    await db_words.doc(uid).collection('words').add(w)
-        .then(async ()=> {
+});
+
+router.post('/:uid/', async (req, res) => {
+    const uid = req.params.uid;
+    const words = req.body;
+    words.forEach((word) => {
+        let docRef = db_words.doc(uid).collection('words').doc();
+        batch.set(docRef, word);
+    });
+    await batch.commit()
+        .then(async (w) => {
             await db_words.doc(uid).update({
-                wordCount: admin.firestore.FieldValue.increment(1)
+                wordCount: admin.firestore.FieldValue.increment(words.length)
             });
-            res.status(200).send(word);
+            res.status(200).send(w);
         }).catch((error) => {
             let errMsg = `[${error.code}]: ${error.message}`;
             console.log(`[API] ${errMsg}`);
@@ -63,47 +83,19 @@ router.post('/:uid/add/:local/:foreign/:learn', async (req, res) => {
         });
 });
 
-router.post('/:uid/:id/', async (req, res) => {
+router.delete('/:uid/', async (req, res) => {
     const uid = req.params.uid;
-    const wordId = req.params.id;
-    const w = await db_words.doc(uid).collection('words').doc(wordId).get();
-    if (!w.exists) {
-        res.status(404).send(`Word with id ${wordId} doesn\'t exist!`)
-    } else {
-        let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-        res.status(200).send(word);
-    }
-});
-
-
-router.post('/:uid/:id/up', async (req, res) => {
-    const uid = req.params.uid;
-    const id = req.params.id;
-    await db_words.doc(uid).collection('words').doc(id).update({
-        learn: admin.firestore.FieldValue.increment(1)
-    });
-    res.status(200).send("Word leveled up");
-});
-
-router.post('/:uid/:id/down', async (req, res) => {
-    const uid = req.params.uid;
-    const id = req.params.id;
-    await db_words.doc(uid).collection('words').doc(id).update({
-        learn: admin.firestore.FieldValue.increment(-1)
-    });
-    res.status(200).send("Word leveled down");
-});
-
-router.delete('/:uid/del/:id', async (req, res) => {
-    const uid = req.params.uid;
-    const id = req.params.id;
-
-    await db_words.doc(uid).collection('words').doc(id).delete()
-        .then(async (word) => {
+    const wordIds = req.body;
+    wordIds.map((id) => {
+        let docRef = db_words.doc(uid).collection('words').doc(id);
+        batch.delete(docRef);
+    })
+    await batch.commit()
+        .then(async (w) => {
             await db_words.doc(uid).update({
-                wordCount: admin.firestore.FieldValue.increment(-1)
+                wordCount: admin.firestore.FieldValue.increment(-1 * wordIds.length)
             });
-            res.status(200).send("Word deleted!");
+            res.status(200).send(w);
         }).catch((error) => {
             let errMsg = `[${error.code}]: ${error.message}`;
             console.log(`[API] ${errMsg}`);

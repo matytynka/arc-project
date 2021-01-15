@@ -18,6 +18,6 @@ router.post('/add', addWordHandler);
 router.post('/addWords', addWordsHandler);
 
 /* Deletes an word by id from the Firestore. */
-router.delete('/:id', deleteWordHandler);
+router.post('/:id', deleteWordHandler);
 
 module.exports = router;
