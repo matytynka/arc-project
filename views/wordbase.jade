@@ -1,59 +1,60 @@
 extends layout
 
 block content
-    div(class="sidebar")
-        button(type="button" id="addword") Dodaj słowo
-        br
-        button(type="button" id="fromphoto") Dodaj ze zdjęcia
-        br
-        button(type="button" id="fromarticle") Dodaj z artykułu
+    div(id="wordbase-main")
+        div(class="sidebar")
+            button(type="button" id="addword") Dodaj słowo
+            br
+            button(type="button" id="fromphoto") Dodaj ze zdjęcia
+            br
+            button(type="button" id="fromarticle") Dodaj z artykułu
 
-        div(id="popupadd" class="popup")
-            div(class="popup-content")
-                span(class="close" id="closeadd") &times;
-                h2 Dodaj własne słowo
-                form(action="../word/add", method="POST")
-                    label Słowo po polsku
-                    br
-                    input(type="text" name="local")
-                    //input(type="checkbox" name="translate")
-                    //label Automatycznie przetłumacz
-                    br
-                    br
-                    label Słowo po hiszpańsku
-                    br
-                    input(type="text" name="foreign")
-                    br
-                    br
-                    input(type="submit" value="Dodaj")
+            div(id="popupadd" class="popup")
+                div(class="popup-content")
+                    span(class="close" id="closeadd") &times;
+                    h2 Dodaj własne słowo
+                    form(action="../word/add", method="POST")
+                        label Słowo po polsku
+                        br
+                        input(type="text" name="local")
+                        //input(type="checkbox" name="translate")
+                        //label Automatycznie przetłumacz
+                        br
+                        br
+                        label Słowo po hiszpańsku
+                        br
+                        input(type="text" name="foreign")
+                        br
+                        br
+                        input(type="submit" value="Dodaj")
 
-        div(id="popphoto" class="popup")
-            div(class="popup-content")
-                span(class="close" id="closephoto") &times;
-                h2 Dodaj własne słowo ze zdjęcia
-                form(action="../upload" enctype="multipart/form-data" method="POST")
-                    input(type="file" name="files")
-                    br
-                    br
-                    input(type="submit" value="Wyślij plik")
+            div(id="popphoto" class="popup")
+                div(class="popup-content")
+                    span(class="close" id="closephoto") &times;
+                    h2 Dodaj własne słowo ze zdjęcia
+                    form(action="../upload" enctype="multipart/form-data" method="POST")
+                        input(type="file" name="files")
+                        br
+                        br
+                        input(type="submit" value="Wyślij plik")
 
-    div(id="wordbasediv")
-        br
-        table(style="width:100%", id="tableWordbase")
-            caption Twoje słówka
-            tr
-                th Hiszpański
-                th Polski
-                th Wykonano
-                th Edycja
-            each word in words
+        div(id="wordbasediv")
+            br
+            table(id="tableWordbase")
+                caption Twoje słówka
                 tr
-                    td !{word.foreign}
-                    td !{word.local}
-                    td !{word.learn}/3
-                    td
-                        i(class="fa fa-pencil")
-                        i(class="fa fa-times")
+                    th Hiszpański
+                    th Polski
+                    th Wykonano
+                    th Edycja
+                each word in words
+                    tr
+                        td !{word.foreign}
+                        td !{word.local}
+                        td !{word.learn}/3
+                        td
+                            i(class="fa fa-pencil")
+                            i(class="fa fa-times")
 
     script.
         document.getElementById("basetab").className = "active";

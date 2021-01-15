@@ -35,16 +35,28 @@ a {
 }
 
 .active {
-  background-color: darkslateblue;
+  background-color: royalblue;
 }
 
 #learningdiv {
   padding: 50px;
 }
 
+#learning-main {
+  height: 100%;
+  background: url("watercolor-blue.jpg") no-repeat center;
+  background-size: cover;
+}
+
 #wordbasediv {
   margin-left: 160px;
   padding: 50px;
+}
+
+#wordbase-main {
+  height: 100%;
+  background: url("light-blue.jpg") no-repeat center;
+  background-size: cover;
 }
 
 #loginform {
@@ -54,9 +66,8 @@ a {
 
 #main {
   height: 100%;
-  background: url("simple-gray.jpg") no-repeat center;
+  background: url("watercolor-blue.jpg") no-repeat center;
   background-size: cover;
-
 }
 
 .title {
@@ -83,6 +94,10 @@ a {
 .loginbutton button:hover {
   background-color: #fff;
   color: #000;
+}
+
+table {
+  width: 100%;
 }
 
 table, th, td {

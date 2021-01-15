@@ -1,17 +1,18 @@
 extends layout
 
 block content
-    div(id="learningdiv")
-        h4(id="langshow")
-        h2(id="foreign")
-        h4(id="langwrite")
-        input(type="text", id="answer")
-        br
-        br
-        button(type="button", id="show", onclick="show()") Nie wiem
-        button(type="button", id="check", onclick="check()") Sprawdź
-        br
-        h2(id="newtext")
+    div(id="learning-main")
+        div(id="learningdiv")
+            h4(id="langshow")
+            h2(id="foreign")
+            h4(id="langwrite")
+            input(type="text", id="answer")
+            br
+            br
+            button(type="button", id="show", onclick="show()") Nie wiem
+            button(type="button", id="check", onclick="check()") Sprawdź
+            br
+            h2(id="newtext")
         script.
 
             const $ = function( id ) { return document.getElementById( id ); };
