@@ -14,8 +14,6 @@ exports.getUnlearnedWordListHandler = async function(req, res) { return await ge
 exports.addWordHandler = async function(req, res) { await addWord(req, res); }
 exports.addWordsHandler = async function(req, res) { await addWords(req, res); }
 exports.deleteWordHandler = async function(req, res) { await deleteWord(req, res); }
-exports.learnWordUpHandler = async function(req, res) { await learnWordUp(req, res); }
-exports.learnWordDownHandler = async function(req, res) { await learnWordDown(req, res); }
 
 /**
  * Gets all the words from Firestore.
