@@ -6,23 +6,15 @@ const db_words = admin.firestore().collection('userData');
 
 const { getUserHandler } = require('./account');
 
-//TODO: Make better jsdocs
-
 /* Handlers initialization */
 exports.getWordListHandler = async function (req, res) { return await getWordList(req, res); }
 exports.getUnlearnedWordListHandler = async function(req, res) { return await getUnlearnedWordList(req, res); }
 exports.addWordHandler = async function(req, res) { await addWord(req, res); }
 exports.addWordsHandler = async function(req, res) { await addWords(req, res); }
 exports.deleteWordHandler = async function(req, res) { await deleteWord(req, res); }
+exports.learnUpWordHandler = async function(req, res) { await learnUp(req, res); }
+exports.learnDownWordHandler = async function(req, res) { await learnDown(req, res); }
 
-/**
- * Gets all the words from Firestore.
- *
- * @params {Request} req HTTP Request
- * @params {Response} res HTTP Response containing list of words
- *
- * @returns {Promise<Word[]>}
- */
 async function getWordList(req, res) {
     const user = getUserHandler(req, res);
     const snapshot = await db_words.doc(user.uid).collection('words').get()
@@ -41,14 +33,7 @@ async function getWordList(req, res) {
     return wordList;
 }
 
-/**
- * Get all unlearned words from Firestore.
- *
- * @params {Request} req HTTP Request
- * @params {Response} res HTTP Response
- *
- * @returns {Promise<Word[]>}
- */
+
 async function getUnlearnedWordList(req, res) {
     const user = getUserHandler(req, res);
     const snapshot = await db_words.doc(user.uid).collection('words').get();
@@ -62,14 +47,6 @@ async function getUnlearnedWordList(req, res) {
     return wordList;
 }
 
-/**
- * Adds an word to Firestore.
- *
- * @params {Request} req HTTP Request
- * @params {Response} res HTTP Response
- *
- * @returns {Promise<void>}
- */
 async function addWord(req, res) {
     const user = getUserHandler(req, res);
     let word = new wordModel(req.body.local, req.body.foreign, "", 0);
@@ -85,26 +62,6 @@ async function addWord(req, res) {
     res.redirect('back');
 }
 
-/**
- * Adds multiple words to Firestore.
- *
- * @params {Request} req HTTP Request
- * @params {Response} res HTTP Response
- *
- * @returns {Promise<void>}
- */
-async function addWords(req, res) {
-    res.status(501).send("NOT IMPLEMENTED");
-    //TODO: Implement multiple add
-}
-/**
- * Deletes an word by id from the Firestore.
- *
- * @params {Request} req HTTP Request
- * @params {Response} res HTTP Response
- *
- * @returns {Promise<void>}
- */
 async function deleteWord(req, res) {
     const user = getUserHandler(req, res);
     const id = req.params.id;
@@ -114,4 +71,22 @@ async function deleteWord(req, res) {
         wordCount: admin.firestore.FieldValue.increment(-1)
     });
     res.redirect('/wordbase');
+}
+
+async function learnUp(req, res) {
+    const user = getUserHandler(req, res);
+    const id = req.params.id;
+
+    await db_words.doc(user.uid).collection('words').doc(id).update({
+       learn: admin.firestore.FieldValue.increment(1)
+    });
+}
+
+async function learnDown(req, res) {
+    const user = getUserHandler(req, res);
+    const id = req.params.id;
+
+    await db_words.doc(user.uid).collection('words').doc(id).update({
+        learn: admin.firestore.FieldValue.increment(-1)
+    });
 }
