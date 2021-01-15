@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { googleTranslateHandler } = require('../controllers/googleTranslate');
+const {  } = require('../controllers/googleTranslate');
 
 /* Handles translation request */
-router.post('/', googleTranslateHandler);
+//router.post('/', googleTranslateHandler);
 
 module.exports = router;
