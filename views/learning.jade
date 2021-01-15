@@ -74,7 +74,7 @@ block content
             function check() {
                 if (answer() === true) {
                     let xhr = new XMLHttpRequest();
-                    xhr.open("POST", '/word/' + randomWord.id + '/up', true);
+                    xhr.open("POST", '/word/up/' + randomWord.id, true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.send();
                     $("newtext").style.color = "green";
@@ -84,7 +84,7 @@ block content
                     $("show").setAttribute("disabled", "disabled");
                 } else {
                     let xhr = new XMLHttpRequest();
-                    xhr.open("POST", '/word/' + randomWord.id + '/down', true);
+                    xhr.open("POST", '/word/down/' + randomWord.id, true);
                     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                     xhr.send();
                     $("newtext").style.color = "red";

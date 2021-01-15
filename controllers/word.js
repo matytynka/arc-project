@@ -10,7 +10,6 @@ const { getUserHandler } = require('./account');
 exports.getWordListHandler = async function (req, res) { return await getWordList(req, res); }
 exports.getUnlearnedWordListHandler = async function(req, res) { return await getUnlearnedWordList(req, res); }
 exports.addWordHandler = async function(req, res) { await addWord(req, res); }
-exports.addWordsHandler = async function(req, res) { await addWords(req, res); }
 exports.deleteWordHandler = async function(req, res) { await deleteWord(req, res); }
 exports.learnUpWordHandler = async function(req, res) { await learnUp(req, res); }
 exports.learnDownWordHandler = async function(req, res) { await learnDown(req, res); }
