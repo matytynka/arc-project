@@ -7,6 +7,7 @@ block content
         h4(id="langwrite")
         input(type="text", id="answer")
         br
+        br
         button(type="button", id="show", onclick="show()") Nie wiem
         button(type="button", id="check", onclick="check()") Sprawdź
         br
@@ -37,6 +38,7 @@ block content
             }
 
             function init() {
+                $("learningtab").className = "active";
                 randomWord = roll();
                 modeRoll();
                 if (langMode === 0) {

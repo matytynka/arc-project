@@ -30,8 +30,12 @@ a {
   text-decoration: none;
 }
 
-.navbar li a:hover {
+.navbar li a:hover:not(.active) {
   background-color: #111;
+}
+
+.active {
+  background-color: darkslateblue;
 }
 
 #learningdiv {
@@ -152,7 +156,7 @@ th {
   margin: auto;
   padding: 30px;
   border: 1px solid #888;
-  width: 40%;
+  width: 30%;
 }
 
 .close {
