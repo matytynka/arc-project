@@ -11,12 +11,15 @@ const logger = require('morgan');
 const indexRouter = require('./routes/indexView');
 const wordbaseRouter = require('./routes/wordbaseView');
 
-/* API routes */
+/* Controller routes */
 const accountRouter = require('./routes/account');
 const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
 const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/firebaseStorage');
+
+/* API routes */
+const wordAPI = require('./api/wordAPI');
 
 const app = express();
 
@@ -37,6 +40,7 @@ app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
+app.use('/api/word/', wordAPI);
 
 
 // catch 404 and forward to error handler
