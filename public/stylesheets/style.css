@@ -13,7 +13,7 @@ a {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #48c0f4;
   position: fixed;
   width: 100%;
 }
@@ -102,7 +102,7 @@ table {
 
 table, th, td {
   margin-top: 40px;
-  border: 1px solid black;
+  border: 1px solid #ccf1fa;
   border-collapse: collapse;
 }
 
@@ -111,7 +111,7 @@ th, td {
 }
 
 tr:nth-child(even) {
-  background-color: #eee;
+  background-color: #ccf1fa;
 }
 
 tr:nth-child(odd) {
@@ -120,7 +120,7 @@ tr:nth-child(odd) {
 
 th {
   color: white;
-  background-color: #333;
+  background-color: #48c0f4;
 }
 
 #tableWordbase td:nth-child(3) {
