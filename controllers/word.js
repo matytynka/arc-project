@@ -48,8 +48,7 @@ async function getUnlearnedWordList(req, res) {
 
 async function addWord(req, res) {
     const user = getUserHandler(req, res);
-    let local, foreign = req.body.foreign;
-    let word = new wordModel(local, foreign, "", 0);
+    let word = new wordModel(req.body.local, req.body.foreign, "", 0);
     const w = {
         local: word.local,
         foreign: word.foreign,
