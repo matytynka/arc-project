@@ -168,3 +168,49 @@ th {
   text-decoration: none;
   cursor: pointer;
 }
+
+.fbbtn {
+  background-color: #3B5998;
+  color: white;
+}
+
+.twitterbtn {
+  background-color: #55ACEE;
+  color: white;
+}
+
+.googlebtn {
+  background-color: #dd4b39;
+  color: white;
+}
+
+.login-content input,
+.login-content button,
+.regis-content input,
+.regis-content button {
+  width: 100%;
+  padding: 12px 0 12px 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+.popup-content input:hover,
+.popup-content button:hover {
+  opacity: 1;
+}
+
+#main input[type=password],
+#main input[type=text] {
+  background-color: rgb(232, 240, 254);
+}
+
+#main input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+}

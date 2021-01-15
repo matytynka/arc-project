@@ -15,9 +15,9 @@ block content
 
     div(id="popuplogin" class="popup")
       div(class="popup-content")
-        span(class="close" id="close1") &times;
-        h2 Logowanie
-        div(class="content")
+        div(class="login-content")
+          span(class="close" id="close1") &times;
+          h2 Logowanie
           form(action="../account/login", method="POST")
             label Login
             br
@@ -30,14 +30,21 @@ block content
             br
             br
             input(type="submit" value="Zaloguj się")
-          button(type="button" id="twitterloginbtn") Twitter login
-          button(type="button" id="googleloginbtn") Google login
-          button(type="button" id="facebookloginbtn") Facebook login
+            br
+          br
+          br
+          p Lub zaloguj się za pomocą:
+          br
+          button(type="button" id="twitterloginbtn" class="twitterbtn") Twitter
+          br
+          button(type="button" id="googleloginbtn" class="googlebtn") Google
+          br
+          button(type="button" id="facebookloginbtn" class="fbbtn") Facebook
     div(id="popupregis" class="popup")
       div(class="popup-content")
         span(class="close", id="close2") &times;
         h2 Rejestracja
-        div(class="content")
+        div(class="regis-content")
           form(action="../account/register", method="POST")
             label E-mail
             br
