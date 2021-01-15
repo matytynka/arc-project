@@ -21,6 +21,8 @@ block content
 
             let langMode;
 
+            let xhr = new XMLHttpRequest();
+
             window.onload = function () {
                 init();
             };
@@ -73,24 +75,20 @@ block content
 
             function check() {
                 if (answer() === true) {
-                    if (randomWord.learn < 3) {
-                        let xhr = new XMLHttpRequest();
-                        xhr.open("POST", '/word/up/' + randomWord.id, true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.send();
-                    }
+                    xhr.open("POST", '/word/up/' + randomWord.id, true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
+                    xhr.abort();
                     $("newtext").style.color = "green";
                     $("newtext").innerHTML = "Dobrze! +1 pkt";
                     $("check").onclick = next;
                     $("check").innerHTML = "Następne";
                     $("show").setAttribute("disabled", "disabled");
                 } else {
-                    if (randomWord.learn > 0) {
-                        let xhr = new XMLHttpRequest();
-                        xhr.open("POST", '/word/down/' + randomWord.id, true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.send();
-                    }
+                    xhr.open("POST", '/word/down/' + randomWord.id, true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send();
+                    xhr.abort();
                     $("newtext").style.color = "red";
                     $("newtext").innerHTML = "Żle! -1 pkt";
                     $("check").onclick = next;
