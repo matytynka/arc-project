@@ -73,20 +73,24 @@ block content
 
             function check() {
                 if (answer() === true) {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", '/word/up/' + randomWord.id, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send();
+                    if (randomWord.learn < 3) {
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("POST", '/word/up/' + randomWord.id, true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send();
+                    }
                     $("newtext").style.color = "green";
                     $("newtext").innerHTML = "Dobrze! +1 pkt";
                     $("check").onclick = next;
                     $("check").innerHTML = "Następne";
                     $("show").setAttribute("disabled", "disabled");
                 } else {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", '/word/down/' + randomWord.id, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send();
+                    if (randomWord.learn > 0) {
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("POST", '/word/down/' + randomWord.id, true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send();
+                    }
                     $("newtext").style.color = "red";
                     $("newtext").innerHTML = "Żle! -1 pkt";
                     $("check").onclick = next;
