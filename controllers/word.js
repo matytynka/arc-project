@@ -30,7 +30,7 @@ async function getWordList(req, res) {
             return snapshot;
         }).catch((error) => {
             let errMsg = `[${error.code}]: ${error.message}`
-            console.log(error);
+            console.log(errMsg);
             return null;
         });
     let wordList = [];
