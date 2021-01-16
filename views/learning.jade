@@ -13,9 +13,12 @@ block content
             button(type="button", id="check", onclick="check()") Sprawdź
             br
             h2(id="newtext")
+
         script.
 
             const $ = function( id ) { return document.getElementById( id ); };
+
+            let wordList = !{words};
 
             let randomWord;
 
@@ -32,7 +35,6 @@ block content
             }
 
             function roll() {
-                let wordList = !{words};
                 if (wordList === undefined) {
 
                 } else {
@@ -41,17 +43,21 @@ block content
             }
 
             function init() {
-                $("learningtab").className = "active";
-                randomWord = roll();
-                modeRoll();
-                if (langMode === 0) {
-                    $("foreign").innerHTML = randomWord.foreign;
-                    $("langshow").innerHTML = "Hiszpański";
-                    $("langwrite").innerHTML = "Polski";
+                if (wordList === []) {
+
                 } else {
-                    $("foreign").innerHTML = randomWord.local;
-                    $("langshow").innerHTML = "Polski";
-                    $("langwrite").innerHTML = "Hiszpański";
+                    $("learningtab").className = "active";
+                    randomWord = roll();
+                    modeRoll();
+                    if (langMode === 0) {
+                        $("foreign").innerHTML = randomWord.foreign;
+                        $("langshow").innerHTML = "Hiszpański";
+                        $("langwrite").innerHTML = "Polski";
+                    } else {
+                        $("foreign").innerHTML = randomWord.local;
+                        $("langshow").innerHTML = "Polski";
+                        $("langwrite").innerHTML = "Hiszpański";
+                    }
                 }
             }
 
@@ -74,21 +80,31 @@ block content
             }
 
             function check() {
+                let currentWord = wordList.findIndex(w => randomWord === w);
                 if (answer() === true) {
-                    xhr.open("POST", '/word/up/' + randomWord.id, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send();
-                    xhr.abort();
+                    if (wordList[currentWord].learn < 3) {
+                        wordList[currentWord].learn++;
+                        xhr.open("POST", '/word/up/' + randomWord.id, true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send();
+                        xhr.abort();
+                    }
+                    if (wordList[currentWord].learn === 3) {
+                        wordList.splice(currentWord, 1);
+                    }
                     $("newtext").style.color = "green";
                     $("newtext").innerHTML = "Dobrze! +1 pkt";
                     $("check").onclick = next;
                     $("check").innerHTML = "Następne";
                     $("show").setAttribute("disabled", "disabled");
                 } else {
-                    xhr.open("POST", '/word/down/' + randomWord.id, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send();
-                    xhr.abort();
+                    if (wordList[currentWord].learn > 0) {
+                        wordList[currentWord].learn--;
+                        xhr.open("POST", '/word/down/' + randomWord.id, true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send();
+                        xhr.abort();
+                    }
                     $("newtext").style.color = "red";
                     $("newtext").innerHTML = "Żle! -1 pkt";
                     $("check").onclick = next;
