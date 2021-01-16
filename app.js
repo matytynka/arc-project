@@ -22,6 +22,7 @@ const repeatingWords = require('./routes/repeatingWords');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
+const ocrAPI = require('./api/ocrAPI');
 const repeatingWordsAPI = require('./api/repeatingWordsAPI');
 
 const app = express();
@@ -52,7 +53,8 @@ app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
-app.use('/api/word', wordAPI);
+app.use('/api/word/', wordAPI);
+app.use('/api/ocr/', ocrAPI);
 app.use('/api/repeatingwords', repeatingWordsAPI);
 app.use('/repeatingwords', repeatingWords);
 

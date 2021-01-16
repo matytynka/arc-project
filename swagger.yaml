@@ -1,0 +1,104 @@
+swagger: "2.0"
+info:
+  description: "This is a ARC Project server. This API gives access to Words database."
+  version: "1.0.0"
+  title: "ARC Project API"
+  #termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "arc@fake.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "arc-project-bf6c3.web.app"
+basePath: "/api/"
+tags:
+- name: "word"
+  description: "Everything about your words in database"
+schemes:
+- "https"
+- "http"
+paths:
+  /word/{uid}:
+    get:
+      tags:
+      - "word"
+      summary: "Get all words owned by a user"
+      description: ""
+      operationId: "getWords"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: string ID of the user whose words you want to get
+      responses:
+        "500":
+          description: "Internal server error. Also responds with error message."
+    post:
+      tags:
+      - "word"
+      summary: "Add one or multiple words to database"
+      description: ""
+      operationId: "addWords"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: string ID of the user who will own the words
+      responses:
+        "500":
+          description: "Internal server error. Also responds with error message."
+    delete:
+      tags:
+      - "word"
+      summary: "Delete one or multiple words from database"
+      description: ""
+      operationId: "delWords"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: string ID of the user who will own the words
+      responses:
+        "500":
+          description: "Internal server error. Also responds with error message."
+  /word/{uid}/unlearned/:
+    get:
+      tags:
+      - "word"
+      summary: "Get unlearned words owned by a user"
+      description: ""
+      operationId: "getUnlearnedWords"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: "string ID of the user whose words you want to get"
+      responses:
+        "500":
+          description: "Internal server error. Also responds with error message."
+definitions:
+  Word:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      foreign:
+        type: "string"
+      local:
+        type: "string"
+      learn:
+        type: "integer"
+        format: "int32"
+

@@ -1,4 +1,5 @@
 const firestoreConfig = require('../configs/firestoreConfig');
+
 const admin = firestoreConfig.admin;
 const db_words = admin.firestore().collection('userData');
 const batch = admin.firestore().batch();
@@ -29,7 +30,7 @@ router.get('/:uid/', async (req, res) => {
 router.get('/:uid/unlearned/', async (req, res) => {
     let wordList = {};
     const uid = req.params.uid;
-    const snapshot = await db_words.doc(uid).collection('words').get()
+    await db_words.doc(uid).collection('words').get()
         .then((snapshot) => {
             snapshot.forEach((w) => {
                 if(w.data().learn < 3) {

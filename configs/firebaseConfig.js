@@ -4,13 +4,13 @@ require('firebase/storage');
 require('dotenv').config();
 
 const config = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
+    apiKey: "AIzaSyC9oacyibLG0pD9zGUL2E32EcOiYPHPFJI",
+    authDomain: "arc-project-bf6c3.firebaseapp.com",
+    projectId: "arc-project-bf6c3",
     storageBucket: "arc-project-bf6c3.appspot.com",
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID,
+    messagingSenderId: "646615307296",
+    appId: "1:646615307296:web:a90d209162631dc835d845",
+    measurementId: "G-41CP1DRSQK"
 }
 
 firebase.default.initializeApp(config);

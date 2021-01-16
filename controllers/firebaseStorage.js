@@ -6,7 +6,7 @@ exports.uploadFileHandler = async function(req, res) {
 
 async function uploadFile(req, res) {
     const file = req.files[0];
-    await firebase.storage().ref(`ocr/${file.originalname}`).put(file.buffer)
+    await firebase.storage().ref(`ocr/${req.session.uid}/${file.originalname}`).put(file.buffer)
         .then(() => {
             res.status(200).redirect('back');
         }).catch((error) => {
