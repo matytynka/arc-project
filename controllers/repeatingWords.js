@@ -1,9 +1,6 @@
-exports.repeatingWordsHandler = function (req, res) { return filterWords(req, res); }
-
-function filterWords(req, res) {
-    const words = req.body;
+exports.filterWords = function(words) {
     let filteredWords = [];
-
+    console.log(words);
     words.forEach((word) => {
         if (!filteredWords.includes(word.toLowerCase())) {
             filteredWords.push(word.toLowerCase());
