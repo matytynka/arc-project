@@ -4,52 +4,49 @@ const firestoreConfig = require('../configs/firestoreConfig');
 const admin = firestoreConfig.admin;
 const db_words = admin.firestore().collection('userData');
 
-//TODO: Fix documentation
-
-exports.registerHandler = async function(req, res) {
-    await register(req, res);
-}
-
-exports.loginHandler = async function(req, res) {
-    await login(req, res);
-}
-
-exports.logoutHandler = async function(req, res) {
-    await logout(req, res);
-}
-
-exports.getUserHandler = function(req, res) {
-    return getUser(req, res);
-}
+/* Handlers initialization */
+exports.registerHandler = async function(req, res) { await register(req, res); }
+exports.loginHandler = async function(req, res) { await login(req, res); }
+exports.logoutHandler = async function(req, res) { await logout(req, res); }
+exports.getUser = function(req, res) { return getUser(req, res);}
 
 /**
- * Registers an user.
+ * Creates user's account in Firebase. Requires email and password
+ * parameters in Request's body.
  *
  * @params {Request} req HTTP Request
+ * @params {Response} res HTTP Response
  * @params {String} req.body.email Users email
  * @params {String} req.body.password Users password
  * @params {String} req.body.passwordcheck Users passwordcheck
- * @params {Response} res HTTP Response
- * @return {Promise<void>}
  */
 async function register(req, res) {
     const email = req.body.email;
     const password = req.body.password;
     const passwordCheck = req.body.passwordcheck;
+    /* Check if password and password check are the same */
     if(password === passwordCheck) {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        /* Create account in firebase with given email and password */
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(async (user) => {
+                /* Initialize user in database (create wordCount variable in firestore */
                 const u = {
                     wordCount: 0
                 }
                 await db_words.doc(user.user.uid).set(u);
                 console.log("Success creating account!");
+                /* Set login session */
+                req.session.isLoggedIn = true;
+                req.session.uid = user.user.uid;
+                /* Redirect to wordbase */
                 res.redirect('/wordbase');
             }).catch((error) => {
+                /* Handle user creation error */
                 let errMsg = `[${error.code}]: ${error.message}`
                 res.render('index', {registerErr: errMsg});
             });
     } else {
+        /* Handle when passwords are not matching */
         console.log(`${password}:${passwordCheck}`)
         res.render('index', {registerErr: "Hasła nie pasują do siebie."});
     }
@@ -58,18 +55,24 @@ async function register(req, res) {
 /**
  * Logins an user with given email and password.
  *
+ * @params {Request} req HTTP Request
+ * @params {Response} res HTTP Response
  * @param {String} req.body.email
  * @param {String} req.body.password
- * @returns {Promise<void>}
  */
 async function login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-            console.log("Success logging in!");
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+            /* Set login session */
+            req.session.isLoggedIn = true;
+            req.session.uid = user.user.uid;
+            req.session.save();
+            /* Redirect to wordbase */
             res.redirect('/wordbase');
         }).catch((error) => {
+            /* Handle user creation error */
             let errMsg = `[${error.code}]: ${error.message}`
             res.render('index', {loginErr: errMsg});
         });
@@ -77,23 +80,18 @@ async function login(req, res) {
 
 /**
  * Log outs the user.
- *
- * @returns {Promise<void>}
  */
 async function logout(req, res) {
-    firebase.auth().signOut()
+    await firebase.auth().signOut()
         .then(() => {
+            /* Set login session */
+            req.session.isLoggedIn = false;
+            req.session.uid = "";
+            /* Redirect to main page */
             res.redirect("/");
         }).catch((error) => {
+            /* Handle user creation error */
             console.log("["+error.code+"]: "+error.message);
             res.redirect("/");
         });
-}
-
-/**
- * Get current user.
- *
- */
-function getUser(req, res) {
-    return firebase.auth().currentUser;
 }

@@ -15,8 +15,13 @@ exports.learnUpWordHandler = async function(req, res) { await learnUp(req, res);
 exports.learnDownWordHandler = async function(req, res) { await learnDown(req, res); }
 
 async function getWordList(req, res) {
-    const user = getUserHandler(req, res);
-    const snapshot = await db_words.doc(user.uid).collection('words').get()
+    const uid = req.session.uid;
+    /* Handle user not logged in */
+    if(uid === undefined) {
+        res.redirect('/');
+        return null;
+    }
+    const snapshot = await db_words.doc(uid).collection('words').get()
         .then((snapshot) => {
             return snapshot;
         }).catch((error) => {
@@ -34,8 +39,8 @@ async function getWordList(req, res) {
 
 
 async function getUnlearnedWordList(req, res) {
-    const user = getUserHandler(req, res);
-    const snapshot = await db_words.doc(user.uid).collection('words').get();
+    const uid = req.session.uid;
+    const snapshot = await db_words.doc(uid).collection('words').get();
     let wordList = [];
     snapshot.forEach((w) => {
         if(w.data().learn < 3) {
@@ -47,45 +52,45 @@ async function getUnlearnedWordList(req, res) {
 }
 
 async function addWord(req, res) {
-    const user = getUserHandler(req, res);
+    const uid = req.session.uid;
     let word = new wordModel(req.body.local, req.body.foreign, "", 0);
     const w = {
         local: word.local,
         foreign: word.foreign,
         learn: word.learn
     }
-    await db_words.doc(user.uid).collection('words').add(w);
-    await db_words.doc(user.uid).update({
+    await db_words.doc(uid).collection('words').add(w);
+    await db_words.doc(uid).update({
         wordCount: admin.firestore.FieldValue.increment(1)
     });
     res.redirect('back');
 }
 
 async function deleteWord(req, res) {
-    const user = getUserHandler(req, res);
+    const uid = req.session.uid;
     const id = req.params.id;
 
-    await db_words.doc(user.uid).collection('words').doc(id).delete();
-    await db_words.doc(user.uid).update({
+    await db_words.doc(uid).collection('words').doc(id).delete();
+    await db_words.doc(uid).update({
         wordCount: admin.firestore.FieldValue.increment(-1)
     });
     res.redirect('/wordbase');
 }
 
 async function learnUp(req, res) {
-    const user = getUserHandler(req, res);
+    const uid = req.session.uid;
     const id = req.params.id;
 
-    await db_words.doc(user.uid).collection('words').doc(id).update({
+    await db_words.doc(uid).collection('words').doc(id).update({
        learn: admin.firestore.FieldValue.increment(1)
     });
 }
 
 async function learnDown(req, res) {
-    const user = getUserHandler(req, res);
+    const uid = req.session.uid;
     const id = req.params.id;
 
-    await db_words.doc(user.uid).collection('words').doc(id).update({
+    await db_words.doc(uid).collection('words').doc(id).update({
         learn: admin.firestore.FieldValue.increment(-1)
     });
 }

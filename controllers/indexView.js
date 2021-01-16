@@ -3,5 +3,5 @@ exports.getIndexViewHandler = async function(req, res) {
 }
 
 function index(req, res) {
-    res.render('index');
+    res.render('index', {loggedIn: req.session.loggedIn});
 }

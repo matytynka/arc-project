@@ -15,7 +15,4 @@ router.post('/login', loginHandler);
 /* Handles user logout */
 router.get('/logout', logoutHandler);
 
-/* Handles and gets current user */
-router.get('/user', getUserHandler);
-
 module.exports = router;

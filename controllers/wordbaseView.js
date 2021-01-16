@@ -1,11 +1,10 @@
 const { getWordListHandler } = require('./word');
 
-exports.getWordbaseViewHandler = async function(req, res) {
-    await index(req, res);
-}
+/* Handle wordbase view request */
+exports.getWordbaseViewHandler = async function(req, res) { await index(req, res); }
 
-function index(req, res) {
-    getWordListHandler(req, res).then(wordList => {
+async function index(req, res) {
+    await getWordListHandler(req, res).then(wordList => {
         res.render('wordbase', {words: wordList});
     })
 }
