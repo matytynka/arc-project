@@ -18,7 +18,7 @@ const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
 const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/firebaseStorage');
-const repeatingWords = require('./routes/repeatingWordsAPI');
+const repeatingWords = require('./routes/repeatingWords');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
