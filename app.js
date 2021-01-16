@@ -21,6 +21,7 @@ const firebaseStorageRouter = require('./routes/firebaseStorage');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
+const ocrAPI = require('./api/ocrAPI');
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use('/wordbase', wordbaseRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
 app.use('/api/word/', wordAPI);
+app.use('/api/ocr/', ocrAPI);
 
 
 /* Catch 404 and forward to error handler */

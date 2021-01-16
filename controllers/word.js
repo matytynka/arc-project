@@ -16,11 +16,6 @@ exports.learnDownWordHandler = async function(req, res) { await learnDown(req, r
 
 async function getWordList(req, res) {
     const uid = req.session.uid;
-    /* Handle user not logged in */
-    if(uid === undefined) {
-        res.redirect('/');
-        return null;
-    }
     const snapshot = await db_words.doc(uid).collection('words').get()
         .then((snapshot) => {
             return snapshot;

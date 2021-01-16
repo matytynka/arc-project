@@ -129,8 +129,6 @@ block content
               .then((result) => {
                 window.location.href = "http://localhost:3000/wordbase";
               }).catch((error) => {
-                let errorCode = error.code;
-                let errorMessage = error.message;
                 console.log(`[${error.code}]: ${error.message}`);
               });
     }
