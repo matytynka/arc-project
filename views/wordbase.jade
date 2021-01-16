@@ -6,8 +6,6 @@ block content
             button(type="button" id="addword") Dodaj słowo
             br
             button(type="button" id="fromphoto") Dodaj ze zdjęcia
-            br
-            button(type="button" id="fromarticle") Dodaj z artykułu
 
             div(id="popupadd" class="popup")
                 div(class="popup-content")
@@ -44,7 +42,7 @@ block content
                     th Hiszpański
                     th Polski
                     th Wykonano
-                    th Edycja
+                    th Usuń
                 each word in words
                     tr
                         td !{word.foreign}
