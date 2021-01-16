@@ -127,7 +127,7 @@ block content
     async function providerLogin(provider) {
       firebase.auth().signInWithPopup(provider)
               .then((result) => {
-                window.location.href = "http://localhost:3000/wordbase";
+                //window.location.href = "http://localhost:3000/wordbase";
               }).catch((error) => {
                 console.log(`[${error.code}]: ${error.message}`);
               });

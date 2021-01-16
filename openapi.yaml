@@ -1,19 +1,23 @@
-swagger: "2.0"
+openapi: 3.0.0
+
 info:
   description: "This is a ARC Project server. This API gives access to Words database."
   version: "1.0.0"
   title: "ARC Project API"
   #termsOfService: "http://swagger.io/terms/"
   contact:
+    name: "Zespół do Nauki Języka"
     email: "arc@fake.com"
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    name: Creative Commons
+    url: "https://creativecommons.org/licenses/by/4.0/legalcode"
 host: "arc-project-bf6c3.web.app"
 basePath: "/api/"
 tags:
 - name: "word"
   description: "Everything about your words in database"
+- name: "filter"
+  description: "Word filter"
 schemes:
 - "https"
 - "http"
@@ -25,12 +29,9 @@ paths:
       summary: "Get all words owned by a user"
       description: ""
       operationId: "getWords"
-      produces:
-      - "application/json"
       parameters:
         - in: path
           name: uid
-          type: string
           required: true
           description: string ID of the user whose words you want to get
       responses:
@@ -42,12 +43,10 @@ paths:
       summary: "Add one or multiple words to database"
       description: ""
       operationId: "addWords"
-      produces:
-      - "application/json"
+
       parameters:
         - in: path
           name: uid
-          type: string
           required: true
           description: string ID of the user who will own the words
       responses:
@@ -59,8 +58,6 @@ paths:
       summary: "Delete one or multiple words from database"
       description: ""
       operationId: "delWords"
-      produces:
-      - "application/json"
       parameters:
         - in: path
           name: uid
@@ -77,17 +74,49 @@ paths:
       summary: "Get unlearned words owned by a user"
       description: ""
       operationId: "getUnlearnedWords"
-      produces:
-      - "application/json"
       parameters:
         - in: path
           name: uid
-          type: string
           required: true
           description: "string ID of the user whose words you want to get"
       responses:
         "500":
           description: "Internal server error. Also responds with error message."
+  /top_frequent_words/:
+    get:
+      tags:
+        - filter
+      summary: "Filter of frequent words"
+      parameters:
+        - in: query
+          name: freq_words
+          schema:
+            type: integer
+          required: true
+          description: "From which number it is a frequent word"
+          
+      operationId: topfrequentwordsID
+      description: "From which number it is a frequent word"
+      
+      responses:
+        '200':
+          description: "A list of frequent words generated"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              
+        '401':
+          description: "Failed to generate frequent words"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 definitions:
   Word:
     type: "object"
