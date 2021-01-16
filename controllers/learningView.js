@@ -4,7 +4,8 @@ const { getUnlearnedWordListHandler, learnUpWordHandler, learnDownWordHandler } 
 exports.getIndexViewHandler = async function(req, res) { await index(req, res); }
 
 function index(req, res) {
+    if(!req.session.isLoggedIn) res.redirect('/');
     getUnlearnedWordListHandler(req, res).then((wordList) => {
-        res.render('learning', {words: JSON.stringify(wordList), learnUp: learnUpWordHandler(req, res), learnDown: learnDownWordHandler(req, res)});
+        res.render('learning', {words: JSON.stringify(wordList), learnUp: learnUpWordHandler(req, res), learnDown: learnDownWordHandler(req, res), loggedIn: req.session.isLoggedIn});
     });
 }

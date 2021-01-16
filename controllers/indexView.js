@@ -3,5 +3,6 @@ exports.getIndexViewHandler = async function(req, res) {
 }
 
 function index(req, res) {
-    res.render('index', {loggedIn: req.session.loggedIn});
+    if(req.session.isLoggedIn) res.redirect('/wordbase');
+    res.render('index', {loggedIn: req.session.isLoggedIn});
 }
