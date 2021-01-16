@@ -17,7 +17,7 @@ const accountRouter = require('./routes/account');
 const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
 const translateRouter = require('./routes/googleTranslate');
-const firebaseStorageRouter = require('./routes/firebaseStorage');
+const firebaseStorageRouter = require('./routes/fileToWords');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
@@ -55,7 +55,6 @@ app.use('/upload', firebaseStorageRouter);
 app.use('/api/word/', wordAPI);
 app.use('/api/ocr/', ocrAPI);
 app.use('/api/repeatingwords', repeatingWordsAPI);
-app.use('/repeatingwords', repeatingWords);
 
 
 /* Catch 404 and forward to error handler */

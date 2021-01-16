@@ -3,6 +3,7 @@ const firestoreConfig = require('../configs/firestoreConfig');
 
 const admin = firestoreConfig.admin;
 const db_words = admin.firestore().collection('userData');
+const batch = admin.firestore().batch();
 
 /* Handlers initialization */
 exports.getWordListHandler = async function (req, res) { return await getWordList(req, res); }
@@ -57,6 +58,14 @@ async function addWord(req, res) {
         wordCount: admin.firestore.FieldValue.increment(1)
     });
     res.redirect('back');
+}
+
+exports.addWords = async function(uid, words) {
+    words.forEach((word) => {
+        let docRef = db_words.doc(uid).collection('words').doc();
+        batch.set(docRef, word);
+    });
+    await batch.commit();
 }
 
 async function deleteWord(req, res) {

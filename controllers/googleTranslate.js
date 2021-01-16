@@ -3,10 +3,6 @@ const {Translate} = require('@google-cloud/translate').v2;
 const keyFilename = './configs/key.json';
 const translate = new Translate({keyFilename});
 
-exports.googleTranslateHandler = async function(req, res) {
-    await translateText(req, res);
-}
-
 /**
  * Translates given text of array of texts to target language.
  *
@@ -18,9 +14,7 @@ exports.googleTranslateHandler = async function(req, res) {
  * @params {Response} res HTTP Response containing translated text or
  * array of texts.
  */
-async function translateText(req, res) {
-    const text = req.body.text;
-    const target = req.body.target;
+exports.translateText = async function(text, target) {
     let [translations] = await translate.translate(text, target);
     translations = Array.isArray(translations) ? translations : [translations];
     console.log('Translations: ' + translations);

@@ -13,7 +13,8 @@ router.post('/detectText', async (req, res) => {
     const photoPath = req.body.photoPath;
     const [result] = await client.textDetection(`gs://arc-project-bf6c3.appspot.com/${photoPath}`);
     const detections = result.textAnnotations;
-    res.status(200).send(detections[0].description);
+    const ret = detections[0].description.replace(/[,.]/g, "").split(" ");
+    res.status(200).send(ret);
 });
 
 module.exports = router;

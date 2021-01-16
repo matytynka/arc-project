@@ -4,9 +4,9 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer({storage: multer.memoryStorage()});
 
-const { uploadFileHandler } = require('../controllers/firebaseStorage');
+const { fileToWordsHandler } = require('../controllers/fileToWords');
 
 /* Handle file upload */
-router.post('/', upload.array("files"), uploadFileHandler);
+router.post('/', upload.array("files"), fileToWordsHandler);
 
 module.exports = router;
