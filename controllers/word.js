@@ -4,8 +4,6 @@ const firestoreConfig = require('../configs/firestoreConfig');
 const admin = firestoreConfig.admin;
 const db_words = admin.firestore().collection('userData');
 
-const { getUserHandler } = require('./account');
-
 /* Handlers initialization */
 exports.getWordListHandler = async function (req, res) { return await getWordList(req, res); }
 exports.getUnlearnedWordListHandler = async function(req, res) { return await getUnlearnedWordList(req, res); }

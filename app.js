@@ -18,9 +18,11 @@ const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
 const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/firebaseStorage');
+const repeatingWords = require('./routes/repeatingWordsAPI');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
+const repeatingWordsAPI = require('./api/repeatingWordsAPI');
 
 const app = express();
 
@@ -50,7 +52,9 @@ app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
-app.use('/api/word/', wordAPI);
+app.use('/api/word', wordAPI);
+app.use('/api/repeatingwords', repeatingWordsAPI);
+app.use('/repeatingwords', repeatingWords);
 
 
 /* Catch 404 and forward to error handler */
