@@ -55,8 +55,6 @@ app.use('/upload', firebaseStorageRouter);
 app.use('/api/word/', wordAPI);
 app.use('/api/ocr/', ocrAPI);
 app.use('/api/repeatingwords', repeatingWordsAPI);
-app.use('/repeatingwords', repeatingWords);
-
 
 /* Catch 404 and forward to error handler */
 app.use(function(req, res, next) {
