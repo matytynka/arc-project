@@ -1,4 +1,3 @@
-const wordModel = require('../models/wordModel');
 const firestoreConfig = require('../configs/firestoreConfig');
 
 const admin = firestoreConfig.admin;
@@ -24,9 +23,14 @@ async function getWordList(req, res) {
             return null;
         });
     let wordList = [];
-    snapshot.forEach((w) => {
-        let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-        wordList.push(word);
+    snapshot.forEach((word) => {
+        const w = {
+            id: word.id,
+            local: word.data().local,
+            foreign: word.data().foreign,
+            learn: word.data().learn
+        }
+        wordList.push(w);
     });
     return wordList;
 }
@@ -36,10 +40,15 @@ async function getUnlearnedWordList(req, res) {
     const uid = req.session.uid;
     const snapshot = await db_words.doc(uid).collection('words').get();
     let wordList = [];
-    snapshot.forEach((w) => {
-        if(w.data().learn < 3) {
-            let word = new wordModel(w.data().local, w.data().foreign, w.id, w.data().learn);
-            wordList.push(word);
+    snapshot.forEach((word) => {
+        if(word.data().learn < 3) {
+            const w = {
+                id: word.id,
+                local: word.data().local,
+                foreign: word.data().foreign,
+                learn: word.data().learn
+            }
+            wordList.push(w);
         }
     });
     return wordList;
@@ -47,11 +56,10 @@ async function getUnlearnedWordList(req, res) {
 
 async function addWord(req, res) {
     const uid = req.session.uid;
-    let word = new wordModel(req.body.local, req.body.foreign, "", 0);
     const w = {
-        local: word.local,
-        foreign: word.foreign,
-        learn: word.learn
+        local: req.body.local,
+        foreign: req.body.foreign,
+        learn: 0
     }
     await db_words.doc(uid).collection('words').add(w);
     await db_words.doc(uid).update({
