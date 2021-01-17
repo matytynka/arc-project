@@ -62,9 +62,9 @@ async function addWord(req, res) {
         learn: 0
     }
     await db_words.doc(uid).collection('words').add(w);
-    await db_words.doc(uid).update({
+    /*await db_words.doc(uid).update({
         wordCount: admin.firestore.FieldValue.increment(1)
-    });
+    });*/
     res.redirect('back');
 }
 
@@ -81,9 +81,9 @@ async function deleteWord(req, res) {
     const id = req.params.id;
 
     await db_words.doc(uid).collection('words').doc(id).delete();
-    await db_words.doc(uid).update({
+    /*await db_words.doc(uid).update({
         wordCount: admin.firestore.FieldValue.increment(-1)
-    });
+    });*/
     res.redirect('/wordbase');
 }
 

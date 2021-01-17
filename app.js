@@ -18,6 +18,7 @@ const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
 const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/fileToWords');
+const sessionRouter = require('./routes/session');
 
 /* API routes */
 const wordAPI = require('./api/wordAPI');
@@ -52,6 +53,7 @@ app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
 app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
+app.use('/session', sessionRouter);
 app.use('/api/word/', wordAPI);
 app.use('/api/ocr/', ocrAPI);
 app.use('/api/repeatingwords', repeatingWordsAPI);
