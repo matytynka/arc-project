@@ -1,7 +1,7 @@
 openapi: 3.0.0
 
 info:
-  description: "This is a ARC Project server. This API gives access to Words database."
+  description: "This is a ARC Project server. These APIs give access to Words database and word filter"
   version: "1.0.0"
   title: "ARC Project API"
   #termsOfService: "http://swagger.io/terms/"
@@ -30,7 +30,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the user whose words you want to get
+          description: "ID of the user whose words you want to get"
       responses:
         "200":
           description: "Word list of the user."
@@ -63,7 +63,7 @@ paths:
           schema:
             type: string
           required: true
-          description: string ID of the user who will own the words
+          description: "string ID of the user who will own the words"
         - in: query
           name: wordlist
           schema:
@@ -104,7 +104,7 @@ paths:
           schema:
             type: string
           required: true
-          description: string ID of the user who will own the words
+          description: "string ID of the user who will own the words"
         - in: query
           name: deletelist
           schema:
@@ -146,7 +146,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the user whose words you want to get
+          description: "ID of the user whose words you want to get"
       responses:
         "200":
           description: "Word list of the user."
@@ -167,38 +167,27 @@ paths:
                 }
         "500":
           description: "Internal server error. Also responds with error message."
-  /top_frequent_words/:
+  /repeatingwords/:
     get:
       tags:
         - filter
-      summary: "Filter of frequent words"
+      summary: "Filter of repeating words"
       parameters:
         - in: query
-          name: freq_words
+          name: filteredWords
           schema:
-            type: integer
+            type: array
+            items:
+              type: string
           required: true
-          description: "From which number it is a frequent word"
-          
-      operationId: topfrequentwordsID
-      description: "From which number it is a frequent word"
+          description: "Filter words that are repeating more than 1 time and filter common spanish prefix words"
       
       responses:
-        '200':
-          description: "A list of frequent words generated"
+        "200":
+          description: "Successfully returned words after filtering"
           content:
             application/json:
               schema:
                 type: array
                 items:
                   type: string
-              
-        '401':
-          description: "Failed to generate frequent words"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
