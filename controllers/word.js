@@ -12,6 +12,16 @@ exports.deleteWordHandler = async function(req, res) { await deleteWord(req, res
 exports.learnUpWordHandler = async function(req, res) { await learnUp(req, res); }
 exports.learnDownWordHandler = async function(req, res) { await learnDown(req, res); }
 
+/**
+ * Get's user's word list.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ *
+ * @returns {Promise<Word[]>}
+ */
 async function getWordList(req, res) {
     const uid = req.session.uid;
     const snapshot = await db_words.doc(uid).collection('words').get()
@@ -35,7 +45,16 @@ async function getWordList(req, res) {
     return wordList;
 }
 
-
+/**
+ * Get's user's unlearned word list.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ *
+ * @returns {Promise<Word[]>}
+ */
 async function getUnlearnedWordList(req, res) {
     const uid = req.session.uid;
     const snapshot = await db_words.doc(uid).collection('words').get();
@@ -54,6 +73,16 @@ async function getUnlearnedWordList(req, res) {
     return wordList;
 }
 
+/**
+ * Add single word for a user.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ * @param {String} req.body.local Local version of a word.
+ * @param {String} req.body.foreign Foreign version of a word.
+ */
 async function addWord(req, res) {
     const uid = req.session.uid;
     const w = {
@@ -62,12 +91,16 @@ async function addWord(req, res) {
         learn: 0
     }
     await db_words.doc(uid).collection('words').add(w);
-    /*await db_words.doc(uid).update({
-        wordCount: admin.firestore.FieldValue.increment(1)
-    });*/
     res.redirect('back');
 }
 
+/**
+ * Add multiple words for a user.
+ *
+ * @param {String} uid User's ID.
+ * @param {Word[]} words Array of words to add
+ * @returns {Promise<void>}
+ */
 exports.addWords = async function(uid, words) {
     words.forEach((word) => {
         let docRef = db_words.doc(uid).collection('words').doc();
@@ -76,17 +109,32 @@ exports.addWords = async function(uid, words) {
     await batch.commit();
 }
 
+/**
+ * Deletes single word from a user.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ * @param {String} req.params.id id of a word.
+ */
 async function deleteWord(req, res) {
     const uid = req.session.uid;
     const id = req.params.id;
 
     await db_words.doc(uid).collection('words').doc(id).delete();
-    /*await db_words.doc(uid).update({
-        wordCount: admin.firestore.FieldValue.increment(-1)
-    });*/
     res.redirect('/wordbase');
 }
 
+/**
+ * Levels up a word.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ * @param {String} req.params.id id of a word.
+ */
 async function learnUp(req, res) {
     const uid = req.session.uid;
     const id = req.params.id;
@@ -96,6 +144,16 @@ async function learnUp(req, res) {
     });
 }
 
+
+/**
+ * Levels down a word.
+ *
+ * @param {Request} req HTTP Request
+ * @param {Response} res HTTP Response
+ *
+ * @param {String} req.session.uid id of the user.
+ * @param {String} req.params.id id of a word.
+ */
 async function learnDown(req, res) {
     const uid = req.session.uid;
     const id = req.params.id;

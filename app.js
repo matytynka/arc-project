@@ -16,7 +16,6 @@ const wordbaseRouter = require('./routes/wordbaseView');
 const accountRouter = require('./routes/account');
 const wordRouter = require('./routes/word');
 const learningRouter = require('./routes/learningView');
-const translateRouter = require('./routes/googleTranslate');
 const firebaseStorageRouter = require('./routes/fileToWords');
 const sessionRouter = require('./routes/session');
 
@@ -51,7 +50,6 @@ app.use('/account', accountRouter);
 app.use('/word', wordRouter);
 app.use('/learning', learningRouter);
 app.use('/wordbase', wordbaseRouter);
-app.use('/translate', translateRouter);
 app.use('/upload', firebaseStorageRouter);
 app.use('/session', sessionRouter);
 app.use('/api/word/', wordAPI);

@@ -11,16 +11,11 @@ info:
   license:
     name: Creative Commons
     url: "https://creativecommons.org/licenses/by/4.0/legalcode"
-host: "arc-project-bf6c3.web.app"
-basePath: "/api/"
 tags:
 - name: "word"
   description: "Everything about your words in database"
 - name: "filter"
   description: "Word filter"
-schemes:
-- "https"
-- "http"
 paths:
   /word/{uid}:
     get:
@@ -32,9 +27,28 @@ paths:
       parameters:
         - in: path
           name: uid
+          schema:
+            type: string
           required: true
-          description: string ID of the user whose words you want to get
+          description: ID of the user whose words you want to get
       responses:
+        "200":
+          description: "Word list of the user."
+          content:
+            application/json:
+              example:
+                {
+                  "IXWI6E1eAaFnzW23qmBM": {
+                    "local": "paradoksalnie",
+                    "foreign": "paradójicamente",
+                    "learn": 0
+                  },
+                  "MohyeDfVGni8NNqmcuR3": {
+                    "local": "gospodarstwo domowe",
+                    "foreign": "domésticos",
+                    "learn": 0
+                  },
+                }
         "500":
           description: "Internal server error. Also responds with error message."
     post:
@@ -43,13 +57,39 @@ paths:
       summary: "Add one or multiple words to database"
       description: ""
       operationId: "addWords"
-
       parameters:
         - in: path
           name: uid
+          schema:
+            type: string
           required: true
           description: string ID of the user who will own the words
+        - in: query
+          name: wordlist
+          schema:
+            type: array
+            items: 
+              type: object
       responses:
+        "200":
+          description: "Statistics"
+          content:
+            application/json:
+              example:
+               [
+                {
+                  "_writeTime": {
+                    "_seconds": 1610891531,
+                    "_nanoseconds": 297872000
+                  }
+                },
+                {
+                  "_writeTime": {
+                    "_seconds": 1610891531,
+                    "_nanoseconds": 297872000
+                  }
+                }
+              ]
         "500":
           description: "Internal server error. Also responds with error message."
     delete:
@@ -61,25 +101,70 @@ paths:
       parameters:
         - in: path
           name: uid
-          type: string
+          schema:
+            type: string
           required: true
           description: string ID of the user who will own the words
+        - in: query
+          name: deletelist
+          schema:
+            type: array
+            items: 
+              type: string
       responses:
+        "200":
+          description: "Statistics"
+          content:
+            application/json:
+              example:
+               [
+                {
+                  "_writeTime": {
+                    "_seconds": 1610891531,
+                    "_nanoseconds": 297872000
+                  }
+                },
+                {
+                  "_writeTime": {
+                    "_seconds": 1610891531,
+                    "_nanoseconds": 297872000
+                  }
+                }
+              ]
         "500":
           description: "Internal server error. Also responds with error message."
   /word/{uid}/unlearned/:
     get:
       tags:
       - "word"
-      summary: "Get unlearned words owned by a user"
+      summary: "Get all unlearned words owned by a user"
       description: ""
       operationId: "getUnlearnedWords"
       parameters:
         - in: path
           name: uid
+          schema:
+            type: string
           required: true
-          description: "string ID of the user whose words you want to get"
+          description: ID of the user whose words you want to get
       responses:
+        "200":
+          description: "Word list of the user."
+          content:
+            application/json:
+              example:
+                {
+                  "IXWI6E1eAaFnzW23qmBM": {
+                    "local": "paradoksalnie",
+                    "foreign": "paradójicamente",
+                    "learn": 0
+                  },
+                  "MohyeDfVGni8NNqmcuR3": {
+                    "local": "gospodarstwo domowe",
+                    "foreign": "domésticos",
+                    "learn": 0
+                  },
+                }
         "500":
           description: "Internal server error. Also responds with error message."
   /top_frequent_words/:
@@ -117,17 +202,3 @@ paths:
                 properties:
                   error:
                     type: string
-definitions:
-  Word:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      foreign:
-        type: "string"
-      local:
-        type: "string"
-      learn:
-        type: "integer"
-        format: "int32"
-

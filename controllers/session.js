@@ -1,3 +1,4 @@
+/* Handles set session */
 exports.setSessionHandler = async function(req, res) { await setSession(req, res); }
 
 async function setSession(req, res) {
