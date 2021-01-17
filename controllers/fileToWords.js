@@ -1,5 +1,6 @@
 const { firebase } = require('../configs/firebaseConfig');
 
+
 const { filterWords } = require('./repeatingWords');
 const { translateText } = require('./googleTranslate');
 const { detectText } = require('./ocr');
