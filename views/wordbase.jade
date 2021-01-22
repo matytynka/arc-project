@@ -38,23 +38,24 @@ block content
         div(id="wordbasediv")
             br
             table(id="tableWordbase")
-                if words.length > 0
                     caption Twoje słówka
                     tr
                         th Hiszpański
                         th Polski
                         th Wykonano
                         th Usuń
-                    each word in words
-                        tr
-                            td !{word.foreign}
-                            td !{word.local}
-                            td !{word.learn}/3
-                            td
-                                form(action="../word/#{word.id}" method="POST")
-                                    input(type="submit" value="X")
-                else
-                    h2 Brak słówek
+
+                    if words.length === 0
+                        td(colspan="4" id="no-words") Brak słówek
+                    else
+                        each word in words
+                            tr
+                                td !{word.foreign}
+                                td !{word.local}
+                                td !{word.learn}/3
+                                td
+                                    form(action="../word/#{word.id}" method="POST")
+                                        input(type="submit" value="X")
 
     script.
         document.getElementById("basetab").className = "active";

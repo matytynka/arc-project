@@ -16,7 +16,7 @@ block content
     div(id="popuplogin" class="popup")
       div(class="popup-content")
         div(class="login-content")
-          span(class="close" id="close1") &times;
+          span(class="close" id="close-log") &times;
           h2 Logowanie
           if(loginErr)
             h3 #{loginErr}
@@ -44,7 +44,7 @@ block content
           button(type="button" id="facebookloginbtn" class="fbbtn") Facebook
     div(id="popupregis" class="popup")
       div(class="popup-content")
-        span(class="close", id="close2") &times;
+        span(class="close", id="close-reg") &times;
         h2 Rejestracja
         div(class="regis-content")
           if(registerErr)
@@ -80,30 +80,30 @@ block content
 
     firebase.initializeApp(config);
 
-    let popup1 = $("popuplogin");
-    let popup2 = $("popupregis");
-    let btn1 = $("loginbtn");
-    let btn2 = $("regisbtn");
-    let span1 = $("close1");
-    let span2 = $("close2");
+    let popuplog = $("popuplogin");
+    let popupreg = $("popupregis");
+    let btnlog = $("loginbtn");
+    let btnreg = $("regisbtn");
+    let spanlog = $("close-log");
+    let spanreg = $("close-reg");
     let twbtn = $("twitterloginbtn");
     let gobtn = $("googleloginbtn");
     let fbbtn = $("facebookloginbtn");
 
-    btn1.onclick = function () {
-      popup1.style.display = "block";
+    btnlog.onclick = function () {
+      popuplog.style.display = "block";
     }
 
-    btn2.onclick = function () {
-      popup2.style.display = "block";
+    btnreg.onclick = function () {
+      popupreg.style.display = "block";
     }
 
-    span1.onclick = function () {
-      popup1.style.display = "none";
+    spanlog.onclick = function () {
+      popuplog.style.display = "none";
     }
 
-    span2.onclick = function () {
-      popup2.style.display = "none";
+    spanreg.onclick = function () {
+      popupreg.style.display = "none";
     }
 
     twbtn.onclick = async function twitterLogin() {

@@ -153,6 +153,11 @@ th {
   width: 10px;
 }
 
+#tableWordbase #no-words {
+  text-align: center;
+  font-weight: bold;
+}
+
 .sidebar {
   height: 100%;
   width: 160px;

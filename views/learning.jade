@@ -3,7 +3,10 @@ extends layout
 block content
     div(id="learning-main")
         div(id="learningdiv")
-            if words.length > 0
+            if words.length === 2
+                h2 Brak słówek w Twojej bazie!
+                h3 Dodaj conajmniej jedno, aby rozpocząć naukę
+            else
                 h3(id="langshow")
                 h1(id="foreign")
                 h3(id="langwrite")
@@ -14,19 +17,14 @@ block content
                 button(type="button", id="check", onclick="check()") Sprawdź
                 br
                 h2(id="newtext")
-            else
-                h3 Brak słówek w bazie.
 
         script.
 
             const $ = function( id ) { return document.getElementById( id ); };
 
             let wordList = !{words};
-
             let randomWord;
-
             let langMode;
-
             let xhr = new XMLHttpRequest();
 
             window.onload = function () {
@@ -46,21 +44,27 @@ block content
             }
 
             function init() {
-                if (wordList === []) {
-
+                $("learningtab").className = "active";
+                if(wordList.length === 0) {
+                    $("langshow").setAttribute("hidden", "hidden");
+                    $("foreign").innerHTML = "Gratulacje! Wszystkie słówka w bazie są nauczone!"
+                    $("langwrite").setAttribute("hidden", "hidden");
+                    $("answer").setAttribute("hidden", "hidden");
+                    $("show").setAttribute("hidden", "hidden");
+                    $("check").setAttribute("hidden", "hidden");
+                    $("newtext").style.color = "black";
+                    $("newtext").innerHTML = "Dodaj conajmniej jedno nowe słówko do bazy, aby kontynuować naukę";
+                }
+                randomWord = roll();
+                modeRoll();
+                if (langMode === 0) {
+                    $("foreign").innerHTML = randomWord.foreign;
+                    $("langshow").innerHTML = "Hiszpański";
+                    $("langwrite").innerHTML = "Polski";
                 } else {
-                    $("learningtab").className = "active";
-                    randomWord = roll();
-                    modeRoll();
-                    if (langMode === 0) {
-                        $("foreign").innerHTML = randomWord.foreign;
-                        $("langshow").innerHTML = "Hiszpański";
-                        $("langwrite").innerHTML = "Polski";
-                    } else {
-                        $("foreign").innerHTML = randomWord.local;
-                        $("langshow").innerHTML = "Polski";
-                        $("langwrite").innerHTML = "Hiszpański";
-                    }
+                    $("foreign").innerHTML = randomWord.local;
+                    $("langshow").innerHTML = "Polski";
+                    $("langwrite").innerHTML = "Hiszpański";
                 }
             }
 
