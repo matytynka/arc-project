@@ -3,16 +3,19 @@ extends layout
 block content
     div(id="learning-main")
         div(id="learningdiv")
-            h3(id="langshow")
-            h1(id="foreign")
-            h3(id="langwrite")
-            input(type="text", id="answer")
-            br
-            br
-            button(type="button", id="show", onclick="show()") Nie wiem
-            button(type="button", id="check", onclick="check()") Sprawdź
-            br
-            h2(id="newtext")
+            if words.length > 0
+                h3(id="langshow")
+                h1(id="foreign")
+                h3(id="langwrite")
+                input(type="text", id="answer")
+                br
+                br
+                button(type="button", id="show", onclick="show()") Nie wiem
+                button(type="button", id="check", onclick="check()") Sprawdź
+                br
+                h2(id="newtext")
+            else
+                h3 Brak słówek w bazie.
 
         script.
 

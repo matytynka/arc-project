@@ -128,15 +128,15 @@ block content
 
     async function providerLogin(provider) {
       firebase.auth().signInWithPopup(provider)
-              .then((result) => {
+              .then(async (result) => {
                 let user = result.user;
                 let uid = user.uid;
                 console.log(";)");
-                xhr.open("POST", '/session', true);
+                xhr.open("POST", '/session', false);
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.send(JSON.stringify({'uid':uid}));
                 xhr.abort();
-                window.location.href = "https://arc-project-302014.ew.r.appspot.com/wordbase";
+                window.location.href = "/wordbase";
               }).catch((error) => {
                 console.log(`[${error.code}]: ${error.message}`);
               });

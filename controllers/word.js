@@ -57,7 +57,14 @@ async function getWordList(req, res) {
  */
 async function getUnlearnedWordList(req, res) {
     const uid = req.session.uid;
-    const snapshot = await db_words.doc(uid).collection('words').get();
+    const snapshot = await db_words.doc(uid).collection('words').get()
+        .then((snapshot) => {
+            return snapshot;
+        }).catch((error) => {
+            let errMsg = `[${error.code}]: ${error.message}`
+            console.log(errMsg);
+            return null;
+        });
     let wordList = [];
     snapshot.forEach((word) => {
         if(word.data().learn < 3) {

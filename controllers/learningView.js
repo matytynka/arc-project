@@ -8,7 +8,6 @@ function index(req, res) {
         res.redirect('/');
     } else
     getUnlearnedWordListHandler(req, res).then((wordList) => {
-        console.log(wordList);
-        res.render('learning', {words: JSON.stringify(wordList), learnUp: learnUpWordHandler(req, res), learnDown: learnDownWordHandler(req, res), loggedIn: req.session.isLoggedIn});
+        res.render('learning', {words: wordList, learnUp: learnUpWordHandler(req, res), learnDown: learnDownWordHandler(req, res), loggedIn: req.session.isLoggedIn});
     });
 }

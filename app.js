@@ -7,6 +7,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+const cors = require('cors');
 
 /* View routes */
 const indexRouter = require('./routes/indexView');
@@ -25,6 +26,7 @@ const ocrAPI = require('./api/ocrAPI');
 const repeatingWordsAPI = require('./api/repeatingWordsAPI');
 
 const app = express();
+app.use(cors());
 
 /* Setup view engine */
 app.set('views', path.join(__dirname, 'views'));
