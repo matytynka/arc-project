@@ -108,28 +108,32 @@ block content
 
     twbtn.onclick = async function twitterLogin() {
       const twitterProvider = new firebase.auth.TwitterAuthProvider();
-      await providerLogin(twitterProvider);
+      await providerLogin(twitterProvider, "tw");
     }
 
     gobtn.onclick = async function googleLogin() {
       const googleProvider = new firebase.auth.GoogleAuthProvider();
-      await providerLogin(googleProvider);
+      await providerLogin(googleProvider, "google");
     }
 
     fbbtn.onclick = async function facebookLogin() {
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
-      await providerLogin(facebookProvider)
+      await providerLogin(facebookProvider, "fb");
     }
 
-    async function providerLogin(provider) {
+    async function providerLogin(provider, providerCode) {
       firebase.auth().signInWithPopup(provider)
               .then(async (result) => {
                 let user = result.user;
                 let uid = user.uid;
-                console.log(";)");
-                xhr.open("POST", '/session', false);
+                let credential = result.credential;
+                let token = credential.accessToken;
+                if(providerCode === "google") token = credential.idToken;
+                let secret = credential.secret;
+                console.log(":)");
+                xhr.open("POST", '/account/providerLogin', false);
                 xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(JSON.stringify({'uid':uid}));
+                xhr.send(JSON.stringify({'uid':uid, 'token':token, 'secret': secret, 'provider': providerCode}));
                 xhr.abort();
                 window.location.href = "/wordbase";
               }).catch((error) => {

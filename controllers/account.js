@@ -6,9 +6,9 @@ const db_words = admin.firestore().collection('userData');
 
 /* Handlers initialization */
 exports.registerHandler = async function(req, res) { await register(req, res); }
+exports.providerLoginHandler = async function(req, res) { await providerLogin(req, res); }
 exports.loginHandler = async function(req, res) { await login(req, res); }
 exports.logoutHandler = async function(req, res) { await logout(req, res); }
-exports.getUser = function(req, res) { return getUser(req, res);}
 
 /**
  * Creates user's account in Firebase. Requires email and password
@@ -50,6 +50,40 @@ async function register(req, res) {
         console.log(`${password}:${passwordCheck}`)
         res.render('index', {registerErr: "Hasła nie pasują do siebie."});
     }
+}
+
+/**
+ * Logins user with provider token.
+ *
+ * @params {Request} req HTTP Request
+ * @params {Response} res HTTP Response
+ * @params {String} req.body.token Provider login token
+ * @params {String} req.body.secret Provider login secret
+ * @params {String} req.body.provider Provider name
+ */
+async function providerLogin(req, res) {
+    let token = req.body.token;
+    let secret = req.body.secret;
+    let provider = req.body.provider;
+    let credential;
+    if(provider === "tw") credential = await firebase.auth.TwitterAuthProvider.credential(token, secret);
+    if(provider === "google") credential = await firebase.auth.GoogleAuthProvider.credential(token);
+    if(provider === "fb") credential = await firebase.auth.FacebookAuthProvider.credential(token);
+    console.log(credential);
+    firebase.auth().signInWithCredential(credential)
+        .then(async (result) => {
+            req.session.isLoggedIn = true;
+            req.session.uid = req.body.uid;
+            await req.session.save();
+            console.log(`TEST: ${req.session}`);
+            res.send("Logged in!");
+        })
+        .catch((error) => {
+            /* Handle user login error */
+            let errMsg = `[${error.code}]: ${error.message}`
+            console.log(errMsg);
+            res.render('index', {registerErr: errMsg});
+        });
 }
 
 /**
